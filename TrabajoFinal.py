@@ -9,7 +9,7 @@ from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 
-st.title("Análisis de Detección de Ocupación con MLP")
+st.title("Análisis de Detección de Ocupación")
 
 # Crear una tabla de contenido en la barra lateral
 seccion = st.sidebar.radio("Tabla de Contenidos", 
