@@ -130,40 +130,40 @@ elif seccion == "Mapa de calor de correlaciones":
     st.pyplot(fig)
     st.write("Según la matriz, la variable que más se correlaciona con la variable respuesta es la luz (“Light”), pues es una determinante importante en la ocupación de una habitación; seguido de ésta, se denotan las variables de temperatura y CO2, cuyas características se encuentran estrechamente relacionadas con la presencia de personas en un espacio. Por último, debe mencionarse que las variables relacionadas con la humedad presentan una muy baja correlación con la ocupación de una habitación, esto debe tenerse en cuenta en la formulación del modelo para la aplicación y considerar sí se eliminan estas variables dependiendo de los resultados que se obtengan.")
 
-elif seccion == "Boxplots de cada variable relacionada con la variable respuesta Occupancy":
+elif seccion == "Boxplots":
     st.subheader("Conjunto de boxplots")
     st.image("Boxplots.jpg", use_container_width=True)
     st.write("""
-### Análisis de Variables
+    ### Análisis de Variables
 
-#### CO2 (Dióxido de carbono):
-- **Habitación vacía (rojo):** Niveles considerablemente más bajos, con una mediana en torno a 500ppm.
-- **Habitación ocupada (verde):** Niveles mucho más altos, con una mediana cerca de 1000ppm.
-- El nivel de CO2 aumenta notablemente con la ocupación, posiblemente debido a la respiración de las personas.
+    #### CO2 (Dióxido de carbono):
+    - **Habitación vacía (rojo):** Niveles considerablemente más bajos, con una mediana en torno a 500ppm.
+    - **Habitación ocupada (verde):** Niveles mucho más altos, con una mediana cerca de 1000ppm.
+    - El nivel de CO2 aumenta notablemente con la ocupación, posiblemente debido a la respiración de las personas.
 
-#### Humidity (Humedad):
-- **Habitación vacía (rojo):** Mediana ligeramente por encima de 25, con dispersión moderada.
-- **Habitación ocupada (verde):** Mediana cerca de 30, con valores más altos.
-- La ocupación no parece variar mucho la humedad, en línea con la matriz de correlaciones.
+    #### Humidity (Humedad):
+    - **Habitación vacía (rojo):** Mediana ligeramente por encima de 25, con dispersión moderada.
+    - **Habitación ocupada (verde):** Mediana cerca de 30, con valores más altos.
+    - La ocupación no parece variar mucho la humedad, en línea con la matriz de correlaciones.
 
-#### HumidityRatio (Proporción de humedad):
-- **Habitación vacía (rojo):** Valores concentrados alrededor de 0.0035.
-- **Habitación ocupada (verde):** Valores ligeramente más altos, alrededor de 0.004.
-- Aunque las diferencias no son grandes, la ocupación está asociada con un pequeño incremento en la proporción de humedad.
+    #### HumidityRatio (Proporción de humedad):
+    - **Habitación vacía (rojo):** Valores concentrados alrededor de 0.0035.
+    - **Habitación ocupada (verde):** Valores ligeramente más altos, alrededor de 0.004.
+    - Aunque las diferencias no son grandes, la ocupación está asociada con un pequeño incremento en la proporción de humedad.
 
-#### Light (Luz):
-- **Habitación vacía (rojo):** Gran dispersión, con valores extremos muy altos.
-- **Habitación ocupada (verde):** Valores más bajos y concentrados.
-- La ocupación 0 (habitación vacía) está asociada con niveles de luz más altos y variables, posiblemente por la ausencia de personas que reduzcan el uso de iluminación artificial.
+    #### Light (Luz):
+    - **Habitación vacía (rojo):** Gran dispersión, con valores extremos muy altos.
+    - **Habitación ocupada (verde):** Valores más bajos y concentrados.
+    - La ocupación 0 (habitación vacía) está asociada con niveles de luz más altos y variables, posiblemente por la ausencia de personas que reduzcan el uso de iluminación artificial.
 
-#### Temperature (Temperatura):
-- **Habitación vacía (rojo):** Mediana cerca de 20°C, con dispersión moderada.
-- **Habitación ocupada (verde):** Mediana ligeramente más alta, alrededor de 22°C.
-- La temperatura es más alta con ocupación, posiblemente por el calor generado por las personas o el uso de calefacción.
+    #### Temperature (Temperatura):
+    - **Habitación vacía (rojo):** Mediana cerca de 20°C, con dispersión moderada.
+    - **Habitación ocupada (verde):** Mediana ligeramente más alta, alrededor de 22°C.
+    - La temperatura es más alta con ocupación, posiblemente por el calor generado por las personas o el uso de calefacción.
 
-#### Conclusión:
-La ocupación tiene un impacto claro en **CO2, Light (luz) y Temperature (temperatura)**, aumentando sus valores en comparación con la falta de ocupación. En particular, la luz tiende a ser más alta y variable cuando hay ocupación. Otras variables como la humedad presentan cambios menores, pero no son significativos.
-""")
+     #### Conclusión:
+    La ocupación tiene un impacto claro en **CO2, Light (luz) y Temperature (temperatura)**, aumentando sus valores en comparación con la falta de ocupación. En particular, la luz tiende a ser más alta y variable cuando hay ocupación. Otras variables como la humedad presentan cambios menores, pero no son significativos.
+    """)
   
 elif seccion == "Entrenamiento del Modelo MLP":
     st.subheader("Entrenamiento del Modelo MLP")
