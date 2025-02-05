@@ -9,6 +9,7 @@ from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 
+st.image("https://raw.githubusercontent.com/JuanPablo9999/Mineria_de_datos_streamlit/main/image1.jpg", use_column_width=True)
 st.title("Análisis de Detección de Ocupación")
 
 # Crear una tabla de contenido en la barra lateral
@@ -114,7 +115,12 @@ elif seccion == "Análisis Descriptivo":
     st.pyplot(fig)
     st.write("Para la variable de CO2, se observa que los niveles de CO2 dados en ppm (partículas por millón) de aproximadamente 400 a 700pm son los más presentes en el conjunto de datos. Se registran más casos donde los niveles de CO2 son mucho mayores a los recurrentes, llegando hasta los 2000ppm. Para comprender la tolerancia de una persona hacia el CO2, la empresa Enectiva (2017) en su publicación “Efectos de la concentración de CO₂ para la salud humana” expone que las habitaciones deben tener niveles de CO2 máximo recomendado en 1200-1500ppm, a partir de este valor pueden presentarse efectos secundarios sobre las personas, como la fatiga y la pérdida de concentración; a niveles mayores a los presentes en el histograma puede provocar aumento del ritmo cardíaco, dificultades respiratorias, náuseas, e inclusive la pérdida de la consciencia. Los niveles de CO2 pueden ser un indicativo clave para determinar sí la habitación está ocupada o no debido a la naturaleza del ser humano de expulsar dióxido de carbono “CO2” en su exhalación, aunque debe tenerse en cuenta que un nivel elevado de CO2 puede deberse a razones diferentes del proceso de respiración de la persona.")
     
-
+elif seccion == "Distribución de la variable objetivo":
+    st.subheader("Distribución de la variable objetivo")
+    fig, ax = plt.subplots()
+    sns.countplot(x=df["Occupancy"], ax=ax)
+    st.pyplot(fig)
+    st.write("De la variable respuesta “Occupancy”, se obtiene que en su mayoría de casos se tiene como resultado que la habitación no se encuentra ocupada, denotada con el valor de cero y por el valor 1 en el caso contrario. Se obtuvo que en el 78.9% de los casos la habitación está vacía, y en el 21.1% se encuentra ocupada.")
 
 elif seccion == "Mapa de calor de correlaciones":
     st.subheader("Mapa de calor de correlaciones")
@@ -122,12 +128,6 @@ elif seccion == "Mapa de calor de correlaciones":
     sns.heatmap(df.corr(), vmin=-1, vmax=1, cmap="coolwarm", annot=True, ax=ax)
     st.pyplot(fig)
 
-elif seccion == "Distribución de la variable objetivo":
-    st.subheader("Distribución de la variable objetivo")
-    fig, ax = plt.subplots()
-    sns.countplot(x=df["Occupancy"], ax=ax)
-    st.pyplot(fig)
-    st.write("De la variable respuesta “Occupancy”, se obtiene que en su mayoría de casos se tiene como resultado que la habitación no se encuentra ocupada, denotada con el valor de cero y por el valor 1 en el caso contrario. Se obtuvo que en el 78.9% de los casos la habitación está vacía, y en el 21.1% se encuentra ocupada.")
 
 elif seccion == "Relación entre CO2 y Humedad":
     st.subheader("Relación entre CO2 y Humedad")
