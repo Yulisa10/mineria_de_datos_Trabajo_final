@@ -73,15 +73,48 @@ elif seccion == "Análisis Descriptivo":
     # Temperatura
     fig, ax = plt.subplots(figsize=(8, 6))
     ax.hist(x=df["Temperature"], bins=30, color='blue', edgecolor='black', alpha=0.7)
-    ax.set_xlabel('Variable X')
+    ax.set_xlabel('Temperature')
     ax.set_ylabel('Frecuencia')
-    ax.set_title('Histograma de una variable')
+    ax.set_title('Histograma de Temperature')
     st.pyplot(fig)
-
-
-
-
-
+    st.write("Del histograma anterior, se denota que la mayoría de imágenes tomadas de la habitación captaron una temperatura de entre 20°C y 21°C, siendo una temperatura ambiente la que más predomina en el conjunto de datos. Además, se observa que la temperatura mínima registrada es de 19°C y la máxima es un poco superior a 24°C. Por tanto, en la habitación no hay presencia de temperaturas que se consideren bajas o altas.")
+    #  Humidity
+    st.subheader("Histograma de Humidity")
+    fig, ax = plt.subplots(figsize=(8, 6))
+    ax.hist(x=df["Humidity"], bins=30, color='blue', edgecolor='black', alpha=0.7)
+    ax.set_xlabel('Humidity')
+    ax.set_ylabel('Frecuencia')
+    ax.set_title('Histograma de Humidity')
+    st.pyplot(fig)
+    st.write("De la variable “Humidity”, se observa que la humedad se encuentra entre aproximadamente un 16% y un 40%. Para su interpretación en este caso, se debe conocer cuáles son los valores de humedad normales en una habitación, para ello, la empresa Philips (sin fecha) en su publicación “¿Cómo medir la humedad recomendada en casa?” afirma que la humedad ideal debe encontrarse entre 30% y 60% para la conservación de los materiales de las paredes y el piso; por otra parte, en el blog Siber. (n.d.) mencionan que el ser humano puede estar en espacios con una humedad de 20% a 75%. Teniendo en cuenta lo anterior, se puede afirmar que la humedad en la mayoría de los datos es adecuada para las personas, para los casos cuyo valor de humedad es menor a 20% no resulta ideal pero no debería ser un inconveniente significativo.")
+    # HumidityRatio
+    st.subheader("Histograma de HumidityRatio")
+    fig, ax = plt.subplots(figsize=(8, 6))
+    ax.hist(x=df["HumidityRatio"], bins=30, color='blue', edgecolor='black', alpha=0.7)
+    ax.set_xlabel('HumidityRatio')
+    ax.set_ylabel('Frecuencia')
+    ax.set_title('Histograma de HumidityRatio')
+    st.pyplot(fig)
+    st.write("Este histograma corresponde a la cantidad derivada de la temperatura y la humedad relativa dada en kilogramo de vapor de agua por kilogramo de aire, los valores se encuentran entre 0.002 kg vapor de agua/kg de aire hasta 0.0065 kg vapor de agua/ kg de aire aproximadamente. Según la explicación de la variable anterior, los resultados de la relación se encuentran en un rango adecuado.")
+    # Light
+    st.subheader("Histograma de Light")
+    fig, ax = plt.subplots(figsize=(8, 6))
+    ax.hist(x=df["Light"], bins=30, color='blue', edgecolor='black', alpha=0.7)
+    ax.set_xlabel('Light')
+    ax.set_ylabel('Frecuencia')
+    ax.set_title('Histograma de Light')
+    st.pyplot(fig)
+    st.write("De la variable Light, se observa que en la gran mayoría de los datos no hubo presencia de luz, no obstante, se denota el incremento en los valores cercanos a 500lux, esto indica que en estos casos sí se hizo uso de la luz eléctrica en la habitación debido al flujo luminoso provocado por el bombillo. Este podría ser un factor importante en la determinación de sí la habitación está ocupada o no, pero esto se confirmará más adelante en los resultados.")
+    # CO2
+    st.subheader("Histograma de CO2")
+    fig, ax = plt.subplots(figsize=(8, 6))
+    ax.hist(x=df["CO2"], bins=30, color='blue', edgecolor='black', alpha=0.7)
+    ax.set_xlabel('CO2')
+    ax.set_ylabel('Frecuencia')
+    ax.set_title('Histograma de CO2')
+    st.pyplot(fig)
+    st.write("Para la variable de CO2, se observa que los niveles de CO2 dados en ppm (partículas por millón) de aproximadamente 400 a 700pm son los más presentes en el conjunto de datos. Se registran más casos donde los niveles de CO2 son mucho mayores a los recurrentes, llegando hasta los 2000ppm. Para comprender la tolerancia de una persona hacia el CO2, la empresa Enectiva (2017) en su publicación “Efectos de la concentración de CO₂ para la salud humana” expone que las habitaciones deben tener niveles de CO2 máximo recomendado en 1200-1500ppm, a partir de este valor pueden presentarse efectos secundarios sobre las personas, como la fatiga y la pérdida de concentración; a niveles mayores a los presentes en el histograma puede provocar aumento del ritmo cardíaco, dificultades respiratorias, náuseas, e inclusive la pérdida de la consciencia. Los niveles de CO2 pueden ser un indicativo clave para determinar sí la habitación está ocupada o no debido a la naturaleza del ser humano de expulsar dióxido de carbono “CO2” en su exhalación, aunque debe tenerse en cuenta que un nivel elevado de CO2 puede deberse a razones diferentes del proceso de respiración de la persona.")
+    
 
 
 elif seccion == "Mapa de calor de correlaciones":
@@ -95,6 +128,7 @@ elif seccion == "Distribución de la variable objetivo":
     fig, ax = plt.subplots()
     sns.countplot(x=df["Occupancy"], ax=ax)
     st.pyplot(fig)
+    st.write("De la variable respuesta “Occupancy”, se obtiene que en su mayoría de casos se tiene como resultado que la habitación no se encuentra ocupada, denotada con el valor de cero y por el valor 1 en el caso contrario. Se obtuvo que en el 78.9% de los casos la habitación está vacía, y en el 21.1% se encuentra ocupada.")
 
 elif seccion == "Relación entre CO2 y Humedad":
     st.subheader("Relación entre CO2 y Humedad")
