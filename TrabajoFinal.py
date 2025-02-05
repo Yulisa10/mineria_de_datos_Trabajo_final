@@ -26,7 +26,8 @@ seccion = st.sidebar.radio("Tabla de Contenidos",
                             "Boxplots", 
                             "Conclusión: Selección del Mejor Modelo",  # Nueva ubicación
                             "Entrenamiento del Modelo MLP", 
-                            "Hacer una Predicción"])
+                            "Hacer una Predicción"
+                           "Modelo de redes neuronales"])
 
 # Cargar los datos
 def load_data():
