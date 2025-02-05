@@ -191,9 +191,17 @@ elif seccion == "Conclusión: Selección del Mejor Modelo":
        - Gracias a sus técnicas de regularización, XGBoost es menos propenso al sobreajuste (overfitting) en comparación con otros modelos, lo que garantiza que el modelo generalice bien a nuevos datos.
 
     #### Razones por las que otros modelos no fueron seleccionados:
-    - **Random Forest**: Aunque es un modelo potente, tiende a ser más lento y menos eficiente en términos de memoria en comparación con XGBoost. Además, XGBoost suele superar a Random Forest en términos de precisión
+    - **Random Forest**: Aunque es un modelo potente, tiende a ser más lento y menos eficiente en términos de memoria en comparación con XGBoost. Además, XGBoost suele superar a Random Forest en términos de precisión y F1-Score en muchos casos.
+    
+    - **Decision Tree**: Es un modelo más simple y propenso al overfitting, especialmente en conjuntos de datos más complejos. No tiene la capacidad de regularización que tiene XGBoost, lo que lo hace menos confiable para generalizar.
 
+    - **K-Nearest Neighbors (KNN)**: Aunque es un modelo intuitivo, KNN es computacionalmente costoso y no maneja bien el desequilibrio de clases. Además, no proporciona una interpretación clara de la importancia de las características, lo que limita su utilidad en este contexto.
 
+    - **Red Neuronal**: Aunque las redes neuronales pueden ser muy poderosas, requieren una gran cantidad de datos y ajustes hiperparamétricos para alcanzar su máximo potencial. En este caso, el modelo secuencial utilizado es relativamente simple y no supera a XGBoost en términos de precisión o F1-Score.
+
+    ### Conclusión Final:
+    El **XGBoost Classifier** fue seleccionado como el mejor modelo debido a su alto rendimiento, capacidad para manejar el desequilibrio de clases, interpretabilidad de las características, eficiencia y robustez ante el overfitting. Estos factores lo convierten en la opción más adecuada para la tarea de predecir la ocupación de habitaciones, superando a otros modelos como Random Forest, Decision Tree, KNN y la red neuronal en este contexto específico.
+    """)
 
 
 
