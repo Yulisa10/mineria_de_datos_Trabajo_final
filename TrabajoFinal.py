@@ -12,6 +12,7 @@ from sklearn.preprocessing import StandardScaler
 
 # Mostrar la imagen solo en la página de inicio
 st.title("Análisis de Detección de Ocupación")
+st.write("Grupo: Yulisa Ortiz Giraldo y Juan Pablo Noreña Londoño")
 if "image_displayed" not in st.session_state:
     st.image("image1.jpg", use_container_width=True)
     st.session_state["image_displayed"] = True  # Marcar que la imagen ya se mostró
