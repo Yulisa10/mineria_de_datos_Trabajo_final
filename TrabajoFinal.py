@@ -9,7 +9,7 @@ from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 
-st.image("https://raw.githubusercontent.com/JuanPablo9999/Mineria_de_datos_streamlit/main/image1.jpg", use_column_width=True)
+st.image("image1.jpg", use_container_width=True)
 st.title("Análisis de Detección de Ocupación")
 
 # Crear una tabla de contenido en la barra lateral
