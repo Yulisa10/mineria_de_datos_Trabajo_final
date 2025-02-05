@@ -8,8 +8,11 @@ from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 
-st.image("image1.jpg", use_container_width=True)
-st.title("Análisis de Detección de Ocupación")
+# Mostrar la imagen solo en la página de inicio
+if "image_displayed" not in st.session_state:
+    st.image("image1.jpg", use_container_width=True)
+    st.title("Análisis de Detección de Ocupación")
+    st.session_state["image_displayed"] = True  # Marcar que la imagen ya se mostró
 
 # Crear una tabla de contenido en la barra lateral
 seccion = st.sidebar.radio("Tabla de Contenidos", 
@@ -19,9 +22,9 @@ seccion = st.sidebar.radio("Tabla de Contenidos",
                             "Mapa de calor de correlaciones", 
                             "Distribución de la variable objetivo", 
                             "Boxplots", 
+                            "Conclusión: Selección del Mejor Modelo",  # Nueva ubicación
                             "Entrenamiento del Modelo MLP", 
-                            "Hacer una Predicción",
-                            "Conclusión: Selección del Mejor Modelo"])  # Nueva sección
+                            "Hacer una Predicción"])
 
 # Cargar los datos
 def load_data():
@@ -164,28 +167,6 @@ elif seccion == "Boxplots":
      #### Conclusión:
     La ocupación tiene un impacto claro en **CO2, Light (luz) y Temperature (temperatura)**, aumentando sus valores en comparación con la falta de ocupación. En particular, la luz tiende a ser más alta y variable cuando hay ocupación. Otras variables como la humedad presentan cambios menores, pero no son significativos.
     """)
-  
-elif seccion == "Entrenamiento del Modelo MLP":
-    st.subheader("Entrenamiento del Modelo MLP")
-    if st.button("Entrenar Modelo"):
-        model = train_mlp()
-        st.success("Modelo entrenado con éxito")
-        st.session_state["mlp_model"] = model
-
-elif seccion == "Hacer una Predicción":
-    st.subheader("Hacer una Predicción")
-    def user_input():
-        features = {}
-        for col in df.drop(columns=["Occupancy"], errors='ignore').columns:
-            features[col] = st.slider(col, float(df[col].min()), float(df[col].max()), float(df[col].mean()))
-        return pd.DataFrame([features])
-    
-    if "mlp_model" in st.session_state:
-        input_data = user_input()
-        input_scaled = scaler.transform(input_data)
-        prediction = st.session_state["mlp_model"].predict(input_scaled)
-        occupancy = "Ocupado" if prediction[0][0] > 0.5 else "No Ocupado"
-        st.write(f"Predicción: {occupancy}")
 
 # Nueva sección: Conclusión sobre la selección del mejor modelo
 elif seccion == "Conclusión: Selección del Mejor Modelo":
@@ -210,17 +191,7 @@ elif seccion == "Conclusión: Selección del Mejor Modelo":
        - Gracias a sus técnicas de regularización, XGBoost es menos propenso al sobreajuste (overfitting) en comparación con otros modelos, lo que garantiza que el modelo generalice bien a nuevos datos.
 
     #### Razones por las que otros modelos no fueron seleccionados:
-    - **Random Forest**: Aunque es un modelo potente, tiende a ser más lento y menos eficiente en términos de memoria en comparación con XGBoost. Además, XGBoost suele superar a Random Forest en términos de precisión y F1-Score en muchos casos.
-    
-    - **Decision Tree**: Es un modelo más simple y propenso al overfitting, especialmente en conjuntos de datos más complejos. No tiene la capacidad de regularización que tiene XGBoost, lo que lo hace menos confiable para generalizar.
-
-    - **K-Nearest Neighbors (KNN)**: Aunque es un modelo intuitivo, KNN es computacionalmente costoso y no maneja bien el desequilibrio de clases. Además, no proporciona una interpretación clara de la importancia de las características, lo que limita su utilidad en este contexto.
-
-    - **Red Neuronal**: Aunque las redes neuronales pueden ser muy poderosas, requieren una gran cantidad de datos y ajustes hiperparamétricos para alcanzar su máximo potencial. En este caso, el modelo secuencial utilizado es relativamente simple y no supera a XGBoost en términos de precisión o F1-Score.
-
-    ### Conclusión Final:
-    El **XGBoost Classifier** fue seleccionado como el mejor modelo debido a su alto rendimiento, capacidad para manejar el desequilibrio de clases, interpretabilidad de las características, eficiencia y robustez ante el overfitting. Estos factores lo convierten en la opción más adecuada para la tarea de predecir la ocupación de habitaciones, superando a otros modelos como Random Forest, Decision Tree, KNN y la red neuronal en este contexto específico.
-    """)
+    - **Random Forest**: Aunque es un modelo potente, tiende a ser más lento y menos eficiente en términos de memoria en comparación con XGBoost. Además, XGBoost suele superar a Random Forest en términos de precisión
 
 
 
