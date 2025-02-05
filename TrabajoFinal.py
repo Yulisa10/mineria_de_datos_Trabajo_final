@@ -7,6 +7,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
+from tensorflow.keras.optimizers import Adam
+from sklearn.preprocessing import StandardScaler
 
 # Mostrar la imagen solo en la página de inicio
 st.title("Análisis de Detección de Ocupación")
@@ -223,6 +225,53 @@ elif seccion == "Hacer una Predicción":
         prediction = st.session_state["mlp_model"].predict(input_scaled)
         occupancy = "Ocupado" if prediction[0][0] > 0.5 else "No Ocupado"
         st.write(f"Predicción: {occupancy}")
+
+elif seccion == "Modelo de redes neuronales":
+    st.subheader("Modelo planteado con redes neuronales")
+
+    # Simulación de datos (sustituye esto con tus datos reales)
+
+    X = df.drop(columns=["Occupancy"], errors='ignore')
+    y = df["Occupancy"]
+
+    # Preprocesamiento de datos
+    scaler = StandardScaler()
+    X = scaler.fit_transform(X)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    # Construcción del modelo
+    model = Sequential([
+    Dense(32, input_shape=(X_train.shape[1],), activation='relu'),
+    Dense(16, activation='relu'),
+    Dense(1, activation='sigmoid')
+    ])
+
+    model.compile(loss='binary_crossentropy', optimizer=Adam(), metrics=['accuracy'])
+
+    # Entrenamiento del modelo
+    st.write("Entrenando el modelo, por favor espera...")
+    clf = model.fit(X_train, y_train, epochs=50, batch_size=500, verbose=0)
+
+    # Obtención del historial de entrenamiento
+    accuracy = clf.history['accuracy']
+    loss = clf.history['loss']
+
+    # Gráficos de Accuracy y Loss
+    fig, axes = plt.subplots(1, 2, figsize=(10, 3))
+    sns.lineplot(y=accuracy, x=range(1, len(accuracy) + 1), marker='o', ax=axes[0])
+    sns.lineplot(y=loss, x=range(1, len(loss) + 1), marker='o', ax=axes[1])
+    axes[0].set_title('Accuracy')
+    axes[1].set_title('Loss')
+
+    # Mostrar gráficos en Streamlit
+    st.pyplot(fig)
+
+    # Evaluación del modelo
+    _, test_accuracy = model.evaluate(X_test, y_test, verbose=0)
+    st.write(f'**Accuracy del modelo en datos de prueba:** {round(test_accuracy * 100, 2)}%')
+
+
+
 
 
 
