@@ -74,7 +74,7 @@ elif seccion == "Análisis Descriptivo":
     plt.figure(figsize=(8, 6))
     plt.hist(x="Temperature", bins=30, color='blue', edgecolor='black', alpha=0.7)
     # Etiquetas y título
-    plt.xlabel('Temperatura)
+    plt.xlabel("Temperatura")
     plt.ylabel('Frecuencia')
     plt.title('Histograma de Temperature')
     # Mostrar el gráfico
