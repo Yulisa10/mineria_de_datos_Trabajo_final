@@ -9,7 +9,7 @@ from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 
-st.title("Análisis de Detección de Ocupación")
+st.title("Análisis de Detección de Ocupación con MLP")
 
 # Crear una tabla de contenido en la barra lateral
 seccion = st.sidebar.radio("Tabla de Contenidos", 
@@ -86,18 +86,18 @@ elif seccion == "Relación entre CO2 y Humedad":
     st.pyplot(fig)
 
 elif seccion == "Entrenamiento del Modelo MLP":
-    st.sidebar.subheader("Entrenamiento del Modelo MLP")
-    if st.sidebar.button("Entrenar Modelo"):
+    st.subheader("Entrenamiento del Modelo MLP")
+    if st.button("Entrenar Modelo"):
         model = train_mlp()
-        st.sidebar.success("Modelo entrenado con éxito")
+        st.success("Modelo entrenado con éxito")
         st.session_state["mlp_model"] = model
 
 elif seccion == "Hacer una Predicción":
-    st.sidebar.subheader("Hacer una Predicción")
+    st.subheader("Hacer una Predicción")
     def user_input():
         features = {}
         for col in df.drop(columns=["Occupancy"], errors='ignore').columns:
-            features[col] = st.sidebar.slider(col, float(df[col].min()), float(df[col].max()), float(df[col].mean()))
+            features[col] = st.slider(col, float(df[col].min()), float(df[col].max()), float(df[col].mean()))
         return pd.DataFrame([features])
     
     if "mlp_model" in st.session_state:
@@ -105,9 +105,10 @@ elif seccion == "Hacer una Predicción":
         input_scaled = scaler.transform(input_data)
         prediction = st.session_state["mlp_model"].predict(input_scaled)
         occupancy = "Ocupado" if prediction[0][0] > 0.5 else "No Ocupado"
-        st.sidebar.write(f"Predicción: {occupancy}")
+        st.write(f"Predicción: {occupancy}")
 
 st.sidebar.write("Este es un análisis inicial, se pueden agregar modelos predictivos y más visualizaciones interactivas.")
+
 
 
 
