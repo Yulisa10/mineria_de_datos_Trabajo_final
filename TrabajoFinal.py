@@ -10,6 +10,8 @@ from tensorflow.keras.layers import Dense
 from tensorflow.keras.optimizers import Adam
 from sklearn.preprocessing import StandardScaler
 from xgboost import XGBClassifier
+from sklearn.metrics import accuracy_score, f1_score, recall_score, precision_score
+
 
 # Mostrar la imagen solo en la página de inicio
 st.title("Análisis de Detección de Ocupación")
@@ -208,6 +210,7 @@ elif seccion == "Conclusión: Selección del Mejor Modelo":
     ### Conclusión Final:
     El **XGBoost Classifier** fue seleccionado como el mejor modelo debido a su alto rendimiento, capacidad para manejar el desequilibrio de clases, interpretabilidad de las características, eficiencia y robustez ante el overfitting. Estos factores lo convierten en la opción más adecuada para la tarea de predecir la ocupación de habitaciones, superando a otros modelos como Random Forest, Decision Tree, KNN y la red neuronal en este contexto específico.
     """)
+
 
 elif seccion == "Modelo XGBoost":
     st.subheader("Modelo planteado con XGBoost")
