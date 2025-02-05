@@ -19,7 +19,7 @@ seccion = st.sidebar.radio("Tabla de Contenidos",
                             "Análisis Descriptivo", 
                             "Mapa de calor de correlaciones", 
                             "Distribución de la variable objetivo", 
-                            "Relación entre CO2 y Humedad", 
+                            "Boxplots", 
                             "Entrenamiento del Modelo MLP", 
                             "Hacer una Predicción"])
 
