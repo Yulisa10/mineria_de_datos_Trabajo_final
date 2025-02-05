@@ -67,9 +67,10 @@ elif seccion == "Información del dataset":
         st.write("El conjunto de datos fue obtenido del repositorio público Kaggle, ampliamente utilizado en investigaciones relacionadas con sistemas inteligentes y monitoreo ambiental. La fuente original corresponde al trabajo disponible en el siguiente enlace: https://www.kaggle.com/datasets/pooriamst/occupancy-detection.")
 
 elif seccion == "Análisis Descriptivo":
-    st.subheader("Análisis Descriptivo")
+    st.subheader("Resumen de los datos")
     st.write(df.describe())
-    ##### Temperatura
+    st.subheader("Histograma de Temperature")
+    # Temperatura
     # Crear el histograma
     plt.figure(figsize=(8, 6))
     plt.hist(x="Temperature", bins=30, color='blue', edgecolor='black', alpha=0.7)
@@ -77,7 +78,6 @@ elif seccion == "Análisis Descriptivo":
     plt.xlabel("Temperatura")
     plt.ylabel('Frecuencia')
     plt.title('Histograma de Temperature')
-    # Mostrar el gráfico
     plt.show()
 
 
