@@ -124,10 +124,11 @@ elif seccion == "Distribución de la variable objetivo":
 
 elif seccion == "Mapa de calor de correlaciones":
     st.subheader("Mapa de calor de correlaciones")
+    st.write("Se plantea la matriz de correlación de las variables mencionadas para verificar qué tan relacionadas se encuentran con la variable respuesta de “Occupancy” y así observar cuáles tendrían mayor incidencia en la toma de decisión:")
     fig, ax = plt.subplots(figsize=(10, 5))
     sns.heatmap(df.corr(), vmin=-1, vmax=1, cmap="coolwarm", annot=True, ax=ax)
     st.pyplot(fig)
-
+    st.write("Según la matriz, la variable que más se correlaciona con la variable respuesta es la luz (“Light”), pues es una determinante importante en la ocupación de una habitación; seguido de ésta, se denotan las variables de temperatura y CO2, cuyas características se encuentran estrechamente relacionadas con la presencia de personas en un espacio. Por último, debe mencionarse que las variables relacionadas con la humedad presentan una muy baja correlación con la ocupación de una habitación, esto debe tenerse en cuenta en la formulación del modelo para la aplicación y considerar sí se eliminan estas variables dependiendo de los resultados que se obtengan.")
 
 elif seccion == "Relación entre CO2 y Humedad":
     st.subheader("Relación entre CO2 y Humedad")
