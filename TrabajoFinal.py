@@ -202,7 +202,7 @@ elif seccion == "Conclusión: Selección del Mejor Modelo":
     ### Conclusión Final:
     El **XGBoost Classifier** fue seleccionado como el mejor modelo debido a su alto rendimiento, capacidad para manejar el desequilibrio de clases, interpretabilidad de las características, eficiencia y robustez ante el overfitting. Estos factores lo convierten en la opción más adecuada para la tarea de predecir la ocupación de habitaciones, superando a otros modelos como Random Forest, Decision Tree, KNN y la red neuronal en este contexto específico.
     """)
-    elif seccion == "Entrenamiento del Modelo MLP":
+elif seccion == "Entrenamiento del Modelo MLP":
     st.subheader("Entrenamiento del Modelo MLP")
     if st.button("Entrenar Modelo"):
         model = train_mlp()
