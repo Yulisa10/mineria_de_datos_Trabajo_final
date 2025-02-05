@@ -71,17 +71,12 @@ elif seccion == "Análisis Descriptivo":
     st.write(df.describe())
     st.subheader("Histograma de Temperature")
     # Temperatura
-    # Crear el histograma
-    plt.figure(figsize=(8, 6))
-    plt.hist(x="Temperature", bins=30, color='blue', edgecolor='black', alpha=0.7)
-    # Etiquetas y título
-    plt.xlabel("Temperatura")
-    plt.ylabel('Frecuencia')
-    plt.title('Histograma de Temperature')
-    plt.show()
-
-
-
+    fig, ax = plt.subplots(figsize=(8, 6))
+    ax.hist(x=df["Temperature"], bins=30, color='blue', edgecolor='black', alpha=0.7)
+    ax.set_xlabel('Variable X')
+    ax.set_ylabel('Frecuencia')
+    ax.set_title('Histograma de una variable')
+    st.pyplot(fig)
 
 
 
