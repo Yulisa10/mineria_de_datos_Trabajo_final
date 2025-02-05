@@ -134,27 +134,27 @@ elif seccion == "Boxplots de cada variable relacionada con la variable respuesta
     st.subheader("Conjunto de boxplots")
     st.image("Boxplots.jpg", use_container_width=True)
     st.write("De lo anterior, se puede afirmar que:
-CO2 (Dióxido de carbono):
-Habitación vacía (rojo): Los niveles de CO2 son considerablemente más bajos, con una mediana en torno a 500ppm.
-Habitación ocupada (verde): Los niveles de CO2 son mucho más altos, con una mediana cerca de 1000ppm.
-El nivel de CO2 aumenta notablemente cuando hay ocupación (1), posiblemente debido a la respiración de las personas presentes.
-Humidity (Humedad):
-Habitación vacía (rojo): La mediana está ligeramente por encima de 25, con una dispersión moderada.
-Habitación ocupada (verde): La mediana está cerca de 30, con valores más altos que en la ocupación 0.
-La ocupación no parece variar mucho con respecto a la humedad, siendo consistente con lo obtenido en la matriz de correlaciones.
-HumidityRatio (Proporción de humedad):
-Habitación vacía (rojo): Los valores están más concentrados alrededor de 0.0035.
-Habitación ocupada (verde): Los valores están ligeramente más altos, alrededor de 0.004.
-Aunque las diferencias no son grandes, la ocupación está asociada con un pequeño incremento en la proporción de humedad.
-Light (Luz):
-Habitación vacía (rojo): Presenta una gran dispersión, con algunos valores extremos (outliers) muy altos.
-Habitación ocupada. (verde): Tiene valores más bajos y concentrados.
-La ocupación 0 (habitación vacía) está asociada con niveles de luz más altos y variables, posiblemente por la ausencia de personas que reduzcan el uso de iluminación artificial.
-Temperature (Temperatura):
-Habitación vacía (rojo): La mediana está cerca de 20°C, con una dispersión moderada.
-Habitación ocupada (verde): La mediana es ligeramente más alta, alrededor de 22°C.
-La temperatura es más alta cuando hay ocupación, lo cual puede explicarse por el calor generado por las personas o el uso de calefacción.
-Por lo tanto, la ocupación tiene un impacto claro en CO2, Light (luz), y Temperature (Temperatura), aumentando sus valores en comparación con la falta de ocupación. En específico, la luz tiende a ser más alta y variable cuando hay ocupación. Otras variables como aquellas relacionadas con la humedad presentan cambios pequeños entre tipos de ocupación, pero no resultan ser muy significativos.
+    CO2 (Dióxido de carbono):
+    Habitación vacía (rojo): Los niveles de CO2 son considerablemente más bajos, con una mediana en torno a 500ppm.
+    Habitación ocupada (verde): Los niveles de CO2 son mucho más altos, con una mediana cerca de 1000ppm.
+    El nivel de CO2 aumenta notablemente cuando hay ocupación (1), posiblemente debido a la respiración de las personas presentes.
+    Humidity (Humedad):
+    Habitación vacía (rojo): La mediana está ligeramente por encima de 25, con una dispersión moderada.
+    Habitación ocupada (verde): La mediana está cerca de 30, con valores más altos que en la ocupación 0.
+    La ocupación no parece variar mucho con respecto a la humedad, siendo consistente con lo obtenido en la matriz de correlaciones.
+    HumidityRatio (Proporción de humedad):
+    Habitación vacía (rojo): Los valores están más concentrados alrededor de 0.0035.
+    Habitación ocupada (verde): Los valores están ligeramente más altos, alrededor de 0.004.
+    Aunque las diferencias no son grandes, la ocupación está asociada con un pequeño incremento en la proporción de humedad.
+    Light (Luz):
+    Habitación vacía (rojo): Presenta una gran dispersión, con algunos valores extremos (outliers) muy altos.
+    Habitación ocupada. (verde): Tiene valores más bajos y concentrados.
+    La ocupación 0 (habitación vacía) está asociada con niveles de luz más altos y variables, posiblemente por la ausencia de personas que reduzcan el uso de iluminación artificial.
+    Temperature (Temperatura):
+    Habitación vacía (rojo): La mediana está cerca de 20°C, con una dispersión moderada.
+    Habitación ocupada (verde): La mediana es ligeramente más alta, alrededor de 22°C.
+    La temperatura es más alta cuando hay ocupación, lo cual puede explicarse por el calor generado por las personas o el uso de calefacción.
+    Por lo tanto, la ocupación tiene un impacto claro en CO2, Light (luz), y Temperature (Temperatura), aumentando sus valores en comparación con la falta de ocupación. En específico, la luz tiende a ser más alta y variable cuando hay ocupación. Otras variables como aquellas relacionadas con la humedad presentan cambios pequeños entre tipos de ocupación, pero no resultan ser muy significativos.
 
 ")
 
