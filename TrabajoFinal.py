@@ -66,11 +66,28 @@ elif seccion == "Información del dataset":
         st.write("La base cuenta con un total de 17.895 datos con un total de 8 variables, sin embargo, se utilizará una cantidad reducida de variables debido a que aquellas como “ID” y “Fecha” no aportan información relevante para la aplicación de los temas anteriormente tratados.")
         st.write("El conjunto de datos fue obtenido del repositorio público Kaggle, ampliamente utilizado en investigaciones relacionadas con sistemas inteligentes y monitoreo ambiental. La fuente original corresponde al trabajo disponible en el siguiente enlace: https://www.kaggle.com/datasets/pooriamst/occupancy-detection.")
 
-
-
 elif seccion == "Análisis Descriptivo":
     st.subheader("Análisis Descriptivo")
     st.write(df.describe())
+    ##### Temperatura
+    # Crear el histograma
+    plt.figure(figsize=(8, 6))
+    plt.hist(x="Temperature", bins=30, color='blue', edgecolor='black', alpha=0.7)
+    # Etiquetas y título
+    plt.xlabel('Temperatura)
+    plt.ylabel('Frecuencia')
+    plt.title('Histograma de Temperature')
+    # Mostrar el gráfico
+    plt.show()
+
+
+
+
+
+
+
+
+
 
 elif seccion == "Mapa de calor de correlaciones":
     st.subheader("Mapa de calor de correlaciones")
