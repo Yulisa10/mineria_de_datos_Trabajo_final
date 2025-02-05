@@ -26,6 +26,7 @@ seccion = st.sidebar.radio("Tabla de Contenidos",
                             "Distribución de la variable objetivo", 
                             "Boxplots", 
                             "Conclusión: Selección del Mejor Modelo",  # Nueva ubicación
+                            "Modelo XGBoost",  # Nueva sección
                             "Entrenamiento del Modelo MLP", 
                             "Hacer una Predicción",
                            "Modelo de redes neuronales"])
@@ -206,6 +207,51 @@ elif seccion == "Conclusión: Selección del Mejor Modelo":
     ### Conclusión Final:
     El **XGBoost Classifier** fue seleccionado como el mejor modelo debido a su alto rendimiento, capacidad para manejar el desequilibrio de clases, interpretabilidad de las características, eficiencia y robustez ante el overfitting. Estos factores lo convierten en la opción más adecuada para la tarea de predecir la ocupación de habitaciones, superando a otros modelos como Random Forest, Decision Tree, KNN y la red neuronal en este contexto específico.
     """)
+
+elif seccion == "Modelo XGBoost":
+    st.subheader("Modelo planteado con XGBoost")
+
+    # Simulación de datos (sustituye esto con tus datos reales)
+    X = df.drop(columns=["Occupancy"], errors='ignore')
+    y = df["Occupancy"]
+
+    # Preprocesamiento de datos
+    scaler = MinMaxScaler()
+    X_scaled = scaler.fit_transform(X)
+    X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=42)
+
+    # Construcción del modelo XGBoost
+    model = XGBClassifier(enable_categorical=True, random_state=42)
+
+    # Entrenamiento del modelo
+    st.write("Entrenando el modelo XGBoost, por favor espera...")
+    model.fit(X_train, y_train)
+
+    # Predicciones y evaluación del modelo
+    y_pred = model.predict(X_test)
+    accuracy = accuracy_score(y_test, y_pred)
+    f1 = f1_score(y_test, y_pred)
+    recall = recall_score(y_test, y_pred)
+    precision = precision_score(y_test, y_pred)
+
+    # Mostrar métricas de evaluación
+    st.write(f'**Accuracy del modelo en datos de prueba:** {round(accuracy * 100, 2)}%')
+    st.write(f'**F1-Score del modelo:** {round(f1, 2)}')
+    st.write(f'**Recall del modelo:** {round(recall, 2)}')
+    st.write(f'**Precision del modelo:** {round(precision, 2)}')
+
+    # Gráfico de importancia de características
+    st.subheader("Importancia de las características")
+    feat_importances = pd.Series(model.feature_importances_, index=X.columns)
+    feat_importances = feat_importances.sort_values(ascending=True)
+
+    fig, ax = plt.subplots(figsize=(10, 6))
+    feat_importances.plot(kind='barh', ax=ax)
+    ax.set_title('Importancia de las características')
+    ax.set_xlabel('Importancia')
+    ax.set_ylabel('Características')
+    st.pyplot(fig)
+    
 elif seccion == "Entrenamiento del Modelo MLP":
     st.subheader("Entrenamiento del Modelo MLP")
     if st.button("Entrenar Modelo"):
