@@ -9,9 +9,9 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 
 # Mostrar la imagen solo en la página de inicio
+st.title("Análisis de Detección de Ocupación")
 if "image_displayed" not in st.session_state:
     st.image("image1.jpg", use_container_width=True)
-    st.title("Análisis de Detección de Ocupación")
     st.session_state["image_displayed"] = True  # Marcar que la imagen ya se mostró
 
 # Crear una tabla de contenido en la barra lateral
