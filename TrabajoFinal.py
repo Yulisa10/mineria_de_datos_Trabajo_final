@@ -9,7 +9,7 @@ from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 
-st.title("Análisis de Detección de Ocupación con MLP")
+st.title("Análisis de Detección de Ocupación")
 
 # Crear una tabla de contenido en la barra lateral
 seccion = st.sidebar.radio("Tabla de Contenidos", 
@@ -27,14 +27,14 @@ def load_data():
     df_train = pd.read_csv("https://raw.githubusercontent.com/JuanPablo9999/Mineria_de_datos_streamlit/main/datatrain.csv")
     df_test = pd.read_csv("https://raw.githubusercontent.com/JuanPablo9999/Mineria_de_datos_streamlit/main/datatest.csv")
     df = pd.concat([df_train, df_test], axis=0)
-    df["date"] = pd.to_datetime(df["date"])
+    df.drop(columns=["id", "date"], inplace=True, errors='ignore')
     return df
 
 df = load_data()
 
 # Preprocesamiento
 def preprocess_data(df):
-    X = df.drop(columns=["date", "Occupancy"])
+    X = df.drop(columns=["Occupancy"], errors='ignore')
     y = df["Occupancy"]
     scaler = MinMaxScaler()
     X_scaled = scaler.fit_transform(X)
@@ -96,7 +96,7 @@ elif seccion == "Hacer una Predicción":
     st.sidebar.subheader("Hacer una Predicción")
     def user_input():
         features = {}
-        for col in df.drop(columns=["date", "Occupancy"]).columns:
+        for col in df.drop(columns=["Occupancy"], errors='ignore').columns:
             features[col] = st.sidebar.slider(col, float(df[col].min()), float(df[col].max()), float(df[col].mean()))
         return pd.DataFrame([features])
     
@@ -108,6 +108,7 @@ elif seccion == "Hacer una Predicción":
         st.sidebar.write(f"Predicción: {occupancy}")
 
 st.sidebar.write("Este es un análisis inicial, se pueden agregar modelos predictivos y más visualizaciones interactivas.")
+
 
 
 
