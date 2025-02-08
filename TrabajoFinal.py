@@ -278,7 +278,8 @@ elif seccion == "Hacer una Predicción":
         occupancy = "Ocupado" if prediction[0][0] > 0.5 else "No Ocupado"
         st.write(f"Predicción: {occupancy}")
 
-  # Nueva sección con comparación gráfica de resultados
+ 
+# Nueva sección con comparación gráfica de resultados
 elif seccion == "Modelo de redes neuronales":
     st.subheader("Modelo planteado con redes neuronales")
 
@@ -289,38 +290,34 @@ elif seccion == "Modelo de redes neuronales":
         Dense(1, activation='sigmoid')
     ])
 
- # Compilar el modelo
-model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+    model.compile(loss='binary_crossentropy', optimizer=Adam(), metrics=['accuracy'])
 
-# Entrenar el modelo
-clf = model.fit(X_train, y_train, epochs=50, batch_size=500, verbose=0, validation_data=(X_test, y_test))
+    # Entrenamiento del modelo
+    st.write("Entrenando el modelo, por favor espera...")
+    clf = model.fit(X_train, y_train, epochs=50, batch_size=500, verbose=0, validation_data=(X_test, y_test))
 
-# Graficar la evolución del entrenamiento
-plt.figure(figsize=(12, 5))
+    # Gráficos de Accuracy y Loss
+    fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+    axes[0].plot(clf.history['loss'], label='Entrenamiento')
+    axes[0].plot(clf.history['val_loss'], label='Validación')
+    axes[0].set_xlabel('Épocas')
+    axes[0].set_ylabel('Pérdida')
+    axes[0].set_title('Evolución de la pérdida')
+    axes[0].legend()
 
-# Gráfico de pérdida
-plt.subplot(1, 2, 1)
-plt.plot(clf.history['loss'], label='Entrenamiento')
-plt.plot(clf.history['val_loss'], label='Validación')
-plt.xlabel('Épocas')
-plt.ylabel('Pérdida')
-plt.title('Evolución de la pérdida')
-plt.legend()
+    axes[1].plot(clf.history['accuracy'], label='Entrenamiento')
+    axes[1].plot(clf.history['val_accuracy'], label='Validación')
+    axes[1].set_xlabel('Épocas')
+    axes[1].set_ylabel('Precisión')
+    axes[1].set_title('Evolución de la precisión')
+    axes[1].legend()
 
-# Gráfico de precisión
-plt.subplot(1, 2, 2)
-plt.plot(clf.history['accuracy'], label='Entrenamiento')
-plt.plot(clf.history['val_accuracy'], label='Validación')
-plt.xlabel('Épocas')
-plt.ylabel('Precisión')
-plt.title('Evolución de la precisión')
-plt.legend()
+    st.pyplot(fig)
 
-plt.show()
 
- # Evaluación del modelo
-_, test_accuracy = model.evaluate(X_test, y_test, verbose=0)
-st.write(f'**Accuracy del modelo en datos de prueba:** {round(test_accuracy * 100, 2)}%')
+    # Evaluación del modelo
+    _, test_accuracy = model.evaluate(X_test, y_test, verbose=0)
+    st.write(f'**Accuracy del modelo en datos de prueba:** {round(test_accuracy * 100, 2)}%')
 
 
 
