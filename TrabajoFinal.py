@@ -348,7 +348,6 @@ st.write("""
 
 # Cargar los modelos preentrenados
 def load_models():
-    occupancy_model = load_model("occupancy_model.h5")
     knn_model = pd.read_pickle("knn_model.pkl")
     keras_model = load_model("keras_model.pkl")
     xgb_model = pd.read_pickle("xgb_model.pkl")
