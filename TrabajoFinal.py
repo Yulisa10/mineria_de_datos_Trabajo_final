@@ -283,66 +283,69 @@ elif seccion == "Hacer una Predicción":
  
 # Nueva sección con comparación gráfica de resultados
 elif seccion == "Modelo de redes neuronales":
-    st.subheader("Modelo de redes neuronales")
-# Define el modelo de red neuronal
-model = Sequential()
-model.add(Dense(32, input_shape=(X_train.shape[1],), activation='relu'))  # Capa de entrada
-model.add(Dense(16, activation='relu'))  # Capa oculta
-model.add(Dense(1, activation='sigmoid'))  # Capa de salida
+    st.subheader("Modelo de Redes Neuronales")
+    st.markdown("""
+    # Simulación de datos (reemplazar con datos reales)
+    X_train, X_test = np.random.rand(1000, 10), np.random.rand(200, 10)
+    y_train, y_test = np.random.randint(0, 2, 1000), np.random.randint(0, 2, 200)
+    
+    # Definir el modelo
+    model = Sequential([
+        Dense(32, input_shape=(X_train.shape[1],), activation='relu'),
+        Dense(16, activation='relu'),
+        Dense(1, activation='sigmoid')
+    ])
+    
+    # Compilar el modelo
+    model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+    
+    # Entrenar el modelo
+    st.write("Entrenando el modelo, por favor espera...")
+    history = model.fit(X_train, y_train, epochs=50, batch_size=500, verbose=0, validation_data=(X_test, y_test))
+    
+    # Gráficos de entrenamiento y validación
+    st.subheader("Rendimiento del Modelo durante el Entrenamiento")
+    fig, axes = plt.subplots(1, 2, figsize=(12, 4))
+    
+    axes[0].plot(history.history['loss'], label='Entrenamiento')
+    axes[0].plot(history.history['val_loss'], label='Validación')
+    axes[0].set_title('Pérdida (Loss)')
+    axes[0].set_xlabel('Épocas')
+    axes[0].set_ylabel('Pérdida')
+    axes[0].legend()
+    
+    axes[1].plot(history.history['accuracy'], label='Precisión en Entrenamiento')
+    axes[1].plot(history.history['val_accuracy'], label='Precisión en Validación')
+    axes[1].set_title('Precisión (Accuracy)')
+    axes[1].set_xlabel('Épocas')
+    axes[1].set_ylabel('Precisión')
+    axes[1].legend()
+    
+    st.pyplot(fig)
+    
+    # Evaluación del modelo en el conjunto de prueba
+    st.subheader("Evaluación del Modelo en el Conjunto de Prueba")
+    y_pred = model.predict(X_test)
+    y_pred = (y_pred > 0.5).astype(int)
+    
+    accuracy = accuracy_score(y_test, y_pred)
+    st.write(f'**Accuracy en el conjunto de prueba:** {round(accuracy * 100, 2)}%')
+    
+    # Matriz de confusión
+    st.subheader("Matriz de Confusión")
+    conf_matrix = confusion_matrix(y_test, y_pred)
+    fig, ax = plt.subplots(figsize=(6, 4))
+    sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', ax=ax)
+    ax.set_xlabel('Predicciones')
+    ax.set_ylabel('Valores Reales')
+    ax.set_title('Matriz de Confusión')
+    st.pyplot(fig)
+    
+    # Conclusión
+    st.subheader("Conclusión")
+    st.write("""
+    - **Pérdida (Loss):** Disminuye con el tiempo, indicando aprendizaje.
+    - **Precisión (Accuracy):** Mejora en entrenamiento y validación.
+    - **Matriz de Confusión:** Muestra errores y aciertos en las predicciones.
+    """)
 
-# Compila el modelo
-model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
-
-# Entrena el modelo
-st.write("Entrenando el modelo, por favor espera...")
-history = model.fit(X_train, y_train, epochs=50, batch_size=500, verbose=0, validation_data=(X_test, y_test))
-
-# Gráficos de entrenamiento y validación (pérdida y precisión)
-st.subheader("Rendimiento del Modelo durante el Entrenamiento")
-
-# Gráfico de pérdida (loss)
-fig, axes = plt.subplots(1, 2, figsize=(12, 4))
-axes[0].plot(history.history['loss'], label='Entrenamiento')
-axes[0].plot(history.history['val_loss'], label='Validación')
-axes[0].set_title('Pérdida (Loss)')
-axes[0].set_xlabel('Épocas')
-axes[0].set_ylabel('Pérdida')
-axes[0].legend()
-
-# Gráfico de precisión (accuracy)
-axes[1].plot(history.history['accuracy'], label='Precisión en Entrenamiento')
-axes[1].plot(history.history['val_accuracy'], label='Precisión en Validación')
-axes[1].set_title('Precisión (Accuracy)')
-axes[1].set_xlabel('Épocas')
-axes[1].set_ylabel('Precisión')
-axes[1].legend()
-
-# Mostrar gráficos en Streamlit
-st.pyplot(fig)
-
-# Evaluación del modelo en el conjunto de prueba
-st.subheader("Evaluación del Modelo en el Conjunto de Prueba")
-y_pred = model.predict(X_test)
-y_pred = (y_pred > 0.5).astype(int)  # Convertir probabilidades a clases binarias (0 o 1)
-
-# Calcular métricas de evaluación
-accuracy = accuracy_score(y_test, y_pred)
-st.write(f'**Accuracy en el conjunto de prueba:** {round(accuracy * 100, 2)}%')
-
-# Matriz de confusión
-st.subheader("Matriz de Confusión")
-conf_matrix = confusion_matrix(y_test, y_pred)
-fig, ax = plt.subplots(figsize=(6, 4))
-sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', ax=ax)
-ax.set_xlabel('Predicciones')
-ax.set_ylabel('Valores Reales')
-ax.set_title('Matriz de Confusión')
-st.pyplot(fig)
-
-# Conclusión
-st.subheader("Conclusión")
-st.write("""
-- **Pérdida (Loss):** La pérdida en el conjunto de entrenamiento y validación disminuye con el tiempo, lo que indica que el modelo está aprendiendo correctamente.
-- **Precisión (Accuracy):** La precisión en el conjunto de entrenamiento y validación aumenta con el tiempo, lo que sugiere que el modelo generaliza bien.
-- **Matriz de Confusión:** La matriz de confusión muestra cuántas predicciones fueron correctas e incorrectas. Esto nos ayuda a entender el rendimiento del modelo en términos de falsos positivos y falsos negativos.
-""")
