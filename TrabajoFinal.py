@@ -69,17 +69,21 @@ def train_mlp():
 # Mostrar contenido basado en la selección
 if seccion == "Vista previa de los datos":
     st.subheader("Vista previa de los datos")
+     st.markdown("""
     st.write(df.head())
+ """)
 
 elif seccion == "Información del dataset":
     st.subheader("Información del dataset")
+    st.markdown("""
     st.write(df.info())
     st.write("La base de datos seleccionada para el desarrollo de la aplicación corresponde a un estudio diseñado para optimizar actividades de clasificación binaria para determinar sí una habitación está ocupada o no. Dentro de sus características, se recopilan mediciones ambientales tales como la temperatura, la humedad del ambiente, la luz o nivel de luminosidad, y niveles de CO2, donde, con base a estas se determina sí la habitación está ocupada. La información de ocupación se obtuvo mediante la obtención de imágenes capturadas por minuto, garantizando etiquetas precisas para la clasificación. Este conjunto de datos resulta muy importante y útil para la investigación basada en la detección ambiental y el diseño de sistemas de edificios inteligentes según sea el interés del usuario.")
     st.write("La base cuenta con un total de 17.895 datos con un total de 8 variables, sin embargo, se utilizará una cantidad reducida de variables debido a que aquellas como “ID” y “Fecha” no aportan información relevante para la aplicación de los temas anteriormente tratados.")
     st.write("El conjunto de datos fue obtenido del repositorio público Kaggle, ampliamente utilizado en investigaciones relacionadas con sistemas inteligentes y monitoreo ambiental. La fuente original corresponde al trabajo disponible en el siguiente enlace: https://www.kaggle.com/datasets/pooriamst/occupancy-detection.")
-
+     """)
 elif seccion == "Análisis Descriptivo":
     st.subheader("Resumen de los datos")
+    st.markdown("""
     st.write(df.describe())
     st.subheader("Histograma de Temperature")
     # Temperatura
@@ -215,7 +219,7 @@ elif seccion == "Conclusión: Selección del Mejor Modelo":
 
 elif seccion == "Modelo XGBoost":
     st.subheader("Modelo planteado con XGBoost")
-
+    st.markdown("""
     # Simulación de datos (sustituye esto con tus datos reales)
     X = df.drop(columns=["Occupancy"], errors='ignore')
     y = df["Occupancy"]
@@ -257,21 +261,27 @@ elif seccion == "Modelo XGBoost":
     ax.set_xlabel('Importancia')
     ax.set_ylabel('Características')
     st.pyplot(fig)
+
+    """)
     
 elif seccion == "Entrenamiento del Modelo MLP":
     st.subheader("Entrenamiento del Modelo MLP")
+    st.markdown("""
     if st.button("Entrenar Modelo"):
         model = train_mlp()
         st.success("Modelo entrenado con éxito")
         st.session_state["mlp_model"] = model
+        """)
 
 elif seccion == "Hacer una Predicción":
     st.subheader("Hacer una Predicción")
+    st.markdown("""
     def user_input():
         features = {}
         for col in df.drop(columns=["Occupancy"], errors='ignore').columns:
             features[col] = st.slider(col, float(df[col].min()), float(df[col].max()), float(df[col].mean()))
         return pd.DataFrame([features])
+        
     
     if "mlp_model" in st.session_state:
         input_data = user_input()
@@ -279,6 +289,7 @@ elif seccion == "Hacer una Predicción":
         prediction = st.session_state["mlp_model"].predict(input_scaled)
         occupancy = "Ocupado" if prediction[0][0] > 0.5 else "No Ocupado"
         st.write(f"Predicción: {occupancy}")
+         """)
 
  
 # Nueva sección con comparación gráfica de resultados
