@@ -269,10 +269,7 @@ elif seccion == "Modelo de redes neuronales":
     return model
     model.compile(loss='binary_crossentropy', optimizer=Adam(), metrics=['accuracy'])
 
-    # Entrenamiento del modelo
-    st.write("Entrenando el modelo, por favor espera...")
-    clf = model.fit(X_train, y_train, epochs=50, batch_size=500, verbose=0)
-
+    
     # Obtención del historial de entrenamiento
     accuracy = clf.history['accuracy']
     loss = clf.history['loss']
