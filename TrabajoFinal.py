@@ -11,7 +11,8 @@ from tensorflow.keras.optimizers import Adam
 from sklearn.preprocessing import StandardScaler
 from xgboost import XGBClassifier
 from sklearn.metrics import accuracy_score, f1_score, recall_score, precision_score
-
+import pickle
+import xgboost as xgb
 
 # Mostrar la imagen solo en la página de inicio
 st.title("Análisis de Detección de Ocupación")
@@ -215,21 +216,12 @@ elif seccion == "Conclusión: Selección del Mejor Modelo":
 elif seccion == "Modelo XGBoost":
     st.subheader("Modelo planteado con XGBoost")
 
-    # Simulación de datos (sustituye esto con tus datos reales)
-    X = df.drop(columns=["Occupancy"], errors='ignore')
-    y = df["Occupancy"]
+# Cargar el modelo desde un archivo
+    with open("xgb_model.pkl", "rb") as file:
+    model_xgb = pickle.load(file)
 
-    # Preprocesamiento de datos
-    scaler = MinMaxScaler()
-    X_scaled = scaler.fit_transform(X)
-    X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=42)
-
-    # Construcción del modelo XGBoost
-    model = XGBClassifier(enable_categorical=True, random_state=42)
-
-    # Entrenamiento del modelo
-    st.write("Entrenando el modelo XGBoost, por favor espera...")
-    model.fit(X_train, y_train)
+# Realizar predicciones con el modelo cargado
+y_pred = model_xgb.predict(X_test)
 
     # Predicciones y evaluación del modelo
     y_pred = model.predict(X_test)
