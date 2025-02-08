@@ -11,6 +11,7 @@ from tensorflow.keras.optimizers import Adam
 from sklearn.preprocessing import StandardScaler
 from xgboost import XGBClassifier
 from sklearn.metrics import accuracy_score, f1_score, recall_score, precision_score
+from sklearn.metrics import accuracy_score, confusion_matrix  # Importación de métricas
 
 
 # Mostrar la imagen solo en la página de inicio
