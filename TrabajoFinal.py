@@ -206,12 +206,12 @@ elif seccion == "Conclusión: Selección del Mejor Modelo":
 elif seccion == "Modelo XGBoost":
     st.subheader("Modelo planteado con XGBoost")
     def load_model():
-        """Cargar el modelo y sus pesos desde el archivo model_weights.pkl."""
         filename = 'xgb_model.pkl.gz'
         with gzip.open(filename, 'rb') as f:
             model = pickle.load(f)
         return model
-        # Predicciones y evaluación del modelo
+    
+    # Predicciones y evaluación del modelo
     
     accuracy = accuracy_score(model)
     f1 = f1_score(model)
