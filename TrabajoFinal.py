@@ -14,7 +14,7 @@ from sklearn.metrics import accuracy_score, f1_score, recall_score, precision_sc
 from sklearn.metrics import accuracy_score, confusion_matrix  # Importación de métricas
 
 
-# Mostrar la imagen solo en la página de inicio.
+# Mostrar la imagen solo en la página de inicio
 st.title("Análisis de Detección de Ocupación")
 st.write("Grupo: Yulisa Ortiz Giraldo y Juan Pablo Noreña Londoño")
 if "image_displayed" not in st.session_state:
@@ -33,7 +33,7 @@ seccion = st.sidebar.radio("Tabla de Contenidos",
                             "Modelo XGBoost",  # Nueva sección
                             "Entrenamiento del Modelo MLP", 
                             "Hacer una Predicción",
-                            "Modelo de redes neuronales"])
+                           "Modelo de redes neuronales"])
 
 # Cargar los datos
 def load_data():
@@ -69,21 +69,17 @@ def train_mlp():
 # Mostrar contenido basado en la selección
 if seccion == "Vista previa de los datos":
     st.subheader("Vista previa de los datos")
-     st.markdown("""
     st.write(df.head())
- """)
 
 elif seccion == "Información del dataset":
     st.subheader("Información del dataset")
-    st.markdown("""
     st.write(df.info())
     st.write("La base de datos seleccionada para el desarrollo de la aplicación corresponde a un estudio diseñado para optimizar actividades de clasificación binaria para determinar sí una habitación está ocupada o no. Dentro de sus características, se recopilan mediciones ambientales tales como la temperatura, la humedad del ambiente, la luz o nivel de luminosidad, y niveles de CO2, donde, con base a estas se determina sí la habitación está ocupada. La información de ocupación se obtuvo mediante la obtención de imágenes capturadas por minuto, garantizando etiquetas precisas para la clasificación. Este conjunto de datos resulta muy importante y útil para la investigación basada en la detección ambiental y el diseño de sistemas de edificios inteligentes según sea el interés del usuario.")
     st.write("La base cuenta con un total de 17.895 datos con un total de 8 variables, sin embargo, se utilizará una cantidad reducida de variables debido a que aquellas como “ID” y “Fecha” no aportan información relevante para la aplicación de los temas anteriormente tratados.")
     st.write("El conjunto de datos fue obtenido del repositorio público Kaggle, ampliamente utilizado en investigaciones relacionadas con sistemas inteligentes y monitoreo ambiental. La fuente original corresponde al trabajo disponible en el siguiente enlace: https://www.kaggle.com/datasets/pooriamst/occupancy-detection.")
-     """)
+
 elif seccion == "Análisis Descriptivo":
     st.subheader("Resumen de los datos")
-    st.markdown("""
     st.write(df.describe())
     st.subheader("Histograma de Temperature")
     # Temperatura
@@ -130,27 +126,24 @@ elif seccion == "Análisis Descriptivo":
     ax.set_title('Histograma de CO2')
     st.pyplot(fig)
     st.write("Para la variable de CO2, se observa que los niveles de CO2 dados en ppm (partículas por millón) de aproximadamente 400 a 700pm son los más presentes en el conjunto de datos. Se registran más casos donde los niveles de CO2 son mucho mayores a los recurrentes, llegando hasta los 2000ppm. Para comprender la tolerancia de una persona hacia el CO2, la empresa Enectiva (2017) en su publicación “Efectos de la concentración de CO₂ para la salud humana” expone que las habitaciones deben tener niveles de CO2 máximo recomendado en 1200-1500ppm, a partir de este valor pueden presentarse efectos secundarios sobre las personas, como la fatiga y la pérdida de concentración; a niveles mayores a los presentes en el histograma puede provocar aumento del ritmo cardíaco, dificultades respiratorias, náuseas, e inclusive la pérdida de la consciencia. Los niveles de CO2 pueden ser un indicativo clave para determinar sí la habitación está ocupada o no debido a la naturaleza del ser humano de expulsar dióxido de carbono “CO2” en su exhalación, aunque debe tenerse en cuenta que un nivel elevado de CO2 puede deberse a razones diferentes del proceso de respiración de la persona.")
-    """) 
+    
 elif seccion == "Distribución de la variable objetivo":
     st.subheader("Distribución de la variable objetivo")
-  st.markdown("""
     fig, ax = plt.subplots()
     sns.countplot(x=df["Occupancy"], ax=ax)
     st.pyplot(fig)
     st.write("De la variable respuesta “Occupancy”, se obtiene que en su mayoría de casos se tiene como resultado que la habitación no se encuentra ocupada, denotada con el valor de cero y por el valor 1 en el caso contrario. Se obtuvo que en el 78.9% de los casos la habitación está vacía, y en el 21.1% se encuentra ocupada.")
-""") 
+
 elif seccion == "Mapa de calor de correlaciones":
     st.subheader("Mapa de calor de correlaciones")
-    st.markdown("""
     st.write("Se plantea la matriz de correlación de las variables mencionadas para verificar qué tan relacionadas se encuentran con la variable respuesta de “Occupancy” y así observar cuáles tendrían mayor incidencia en la toma de decisión:")
     fig, ax = plt.subplots(figsize=(10, 5))
     sns.heatmap(df.corr(), vmin=-1, vmax=1, cmap="coolwarm", annot=True, ax=ax)
     st.pyplot(fig)
     st.write("Según la matriz, la variable que más se correlaciona con la variable respuesta es la luz (“Light”), pues es una determinante importante en la ocupación de una habitación; seguido de ésta, se denotan las variables de temperatura y CO2, cuyas características se encuentran estrechamente relacionadas con la presencia de personas en un espacio. Por último, debe mencionarse que las variables relacionadas con la humedad presentan una muy baja correlación con la ocupación de una habitación, esto debe tenerse en cuenta en la formulación del modelo para la aplicación y considerar sí se eliminan estas variables dependiendo de los resultados que se obtengan.")
-""") 
+
 elif seccion == "Boxplots":
     st.subheader("Conjunto de boxplots")
-  st.markdown("""
     st.image("Boxplots.jpg", use_container_width=True)
     st.write("""
     ### Análisis de Variables
@@ -188,7 +181,7 @@ elif seccion == "Boxplots":
 elif seccion == "Conclusión: Selección del Mejor Modelo":
     st.subheader("Conclusión: Selección del Mejor Modelo (XGBoost)")
     st.markdown("""
-    Después de evaluar varios modelos para la tarea de predecir la ocupación de habitaciones, se determinó que el **XGBoost Classifier** es el modelo más adecuado para este problema. A continuación, se detallan las razones por las que se seleccionó este modelo y por qué los otros no fueron la mejor opción:
+    Después de evaluar varios modelos de machine learning para la tarea de predecir la ocupación de habitaciones, se determinó que el **XGBoost Classifier** es el modelo más adecuado para este problema. A continuación, se detallan las razones por las que se seleccionó este modelo y por qué los otros no fueron la mejor opción:
 
     #### Razones para elegir XGBoost:
     1. **Alto Rendimiento en Precisión y F1-Score**:
@@ -222,7 +215,7 @@ elif seccion == "Conclusión: Selección del Mejor Modelo":
 
 elif seccion == "Modelo XGBoost":
     st.subheader("Modelo planteado con XGBoost")
-    st.markdown("""
+
     # Simulación de datos (sustituye esto con tus datos reales)
     X = df.drop(columns=["Occupancy"], errors='ignore')
     y = df["Occupancy"]
@@ -247,11 +240,10 @@ elif seccion == "Modelo XGBoost":
     precision = precision_score(y_test, y_pred)
 
     # Mostrar métricas de evaluación
-    st.subheader("Métricas de Evaluación")
-    st.write(f'**Accuracy del modelo en datos de prueba:** {round(accuracy * 100, 2)}% (0.9929)')
-    st.write(f'**F1-Score del modelo:** {round(f1, 2)} (0.98)')
-    st.write(f'**Recall del modelo:** {round(recall, 2)} (0.99)')
-    st.write(f'**Precision del modelo:** {round(precision, 2)} (0.97)')
+    st.write(f'**Accuracy del modelo en datos de prueba:** {round(accuracy * 100, 2)}%')
+    st.write(f'**F1-Score del modelo:** {round(f1, 2)}')
+    st.write(f'**Recall del modelo:** {round(recall, 2)}')
+    st.write(f'**Precision del modelo:** {round(precision, 2)}')
 
     # Gráfico de importancia de características
     st.subheader("Importancia de las características")
@@ -264,27 +256,21 @@ elif seccion == "Modelo XGBoost":
     ax.set_xlabel('Importancia')
     ax.set_ylabel('Características')
     st.pyplot(fig)
-
-    """)
     
 elif seccion == "Entrenamiento del Modelo MLP":
     st.subheader("Entrenamiento del Modelo MLP")
-    st.markdown("""
     if st.button("Entrenar Modelo"):
         model = train_mlp()
         st.success("Modelo entrenado con éxito")
         st.session_state["mlp_model"] = model
-        """)
 
 elif seccion == "Hacer una Predicción":
     st.subheader("Hacer una Predicción")
-    st.markdown("""
     def user_input():
         features = {}
         for col in df.drop(columns=["Occupancy"], errors='ignore').columns:
             features[col] = st.slider(col, float(df[col].min()), float(df[col].max()), float(df[col].mean()))
         return pd.DataFrame([features])
-        
     
     if "mlp_model" in st.session_state:
         input_data = user_input()
@@ -292,13 +278,11 @@ elif seccion == "Hacer una Predicción":
         prediction = st.session_state["mlp_model"].predict(input_scaled)
         occupancy = "Ocupado" if prediction[0][0] > 0.5 else "No Ocupado"
         st.write(f"Predicción: {occupancy}")
-         """)
 
  
 # Nueva sección con comparación gráfica de resultados
 elif seccion == "Modelo de redes neuronales":
-    st.subheader("Modelo de redes neuronales")
-    st.markdown("""
+    st.subheader("Modelo planteado con redes neuronales")
 # Define el modelo de red neuronal
 model = Sequential()
 model.add(Dense(32, input_shape=(X_train.shape[1],), activation='relu'))  # Capa de entrada
