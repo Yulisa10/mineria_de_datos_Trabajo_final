@@ -210,7 +210,7 @@ elif seccion == "Modelo XGBoost":
         with gzip.open(filename, 'rb') as f:
             model = pickle.load(f)
         return model
-    
+     model = pickle.load(f)
     # Predicciones y evaluación del modelo
     
     accuracy = accuracy_score(model)
@@ -265,9 +265,10 @@ elif seccion == "Modelo de redes neuronales":
     """Cargar el modelo y sus pesos desde el archivo model_weights.pkl."""
     filename = 'best_model.pkl.gz'
     with gzip.open(filename, 'rb') as f:
-        model = pickle.load(f)
+        model2 = pickle.load(f)
     return model
-    model.compile(loss='binary_crossentropy', optimizer=Adam(), metrics=['accuracy'])
+    model2 = pickle.load(f)
+    model2.compile(loss='binary_crossentropy', optimizer=Adam(), metrics=['accuracy'])
 
     
     # Obtención del historial de entrenamiento
