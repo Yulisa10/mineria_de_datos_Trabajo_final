@@ -29,12 +29,11 @@ seccion = st.sidebar.radio("Tabla de Contenidos",
                             "Mapa de calor de correlaciones", 
                             "Distribución de la variable objetivo", 
                             "Boxplots", 
-                            "Conclusión: Selección del Mejor Modelo", 
-                            "Modelo XGBoost", 
+                            "Conclusión: Selección del Mejor Modelo",  # Nueva ubicación
+                            "Modelo XGBoost",  # Nueva sección
                             "Entrenamiento del Modelo MLP", 
                             "Hacer una Predicción",
-                            "Modelo de redes neuronales",
-                            "Comparación de Modelos"])  # Nueva sección
+                           "Modelo de redes neuronales"])
 
 # Cargar los datos
 def load_data():
@@ -212,6 +211,8 @@ elif seccion == "Conclusión: Selección del Mejor Modelo":
     ### Conclusión Final:
     El **XGBoost Classifier** fue seleccionado como el mejor modelo debido a su alto rendimiento, capacidad para manejar el desequilibrio de clases, interpretabilidad de las características, eficiencia y robustez ante el overfitting. Estos factores lo convierten en la opción más adecuada para la tarea de predecir la ocupación de habitaciones, superando a otros modelos como Random Forest, Decision Tree, KNN y la red neuronal en este contexto específico.
     """)
+
+
 elif seccion == "Modelo XGBoost":
     st.subheader("Modelo planteado con XGBoost")
 
@@ -345,146 +346,3 @@ st.write("""
 - **Precisión (Accuracy):** La precisión en el conjunto de entrenamiento y validación aumenta con el tiempo, lo que sugiere que el modelo generaliza bien.
 - **Matriz de Confusión:** La matriz de confusión muestra cuántas predicciones fueron correctas e incorrectas. Esto nos ayuda a entender el rendimiento del modelo en términos de falsos positivos y falsos negativos.
 """)
-
-# Cargar los modelos preentrenados
-def load_models():
-    knn_model = pd.read_pickle("knn_model.pkl")
-    keras_model = load_model("keras_model.pkl")
-    xgb_model = pd.read_pickle("xgb_model.pkl")
-    decision_tree_model = pd.read_pickle("decision_tree_model.pkl")
-    return occupancy_model, knn_model, keras_model, xgb_model, decision_tree_model
-
-occupancy_model, knn_model, keras_model, xgb_model, decision_tree_model = load_models()
-
-# Nueva sección: Comparación de Modelos
-if seccion == "Comparación de Modelos":
-    st.subheader("Comparación de Modelos")
-    
-    # Selección del modelo
-    modelo_seleccionado = st.selectbox(
-        "Selecciona un modelo para evaluar:",
-        ["XGBoost", "K-Nearest Neighbors (KNN)", "Decision Tree", "Red Neuronal (Keras)", "Red Neuronal (Occupancy)"]
-    )
-    
-    # Evaluar el modelo seleccionado
-    if st.button("Evaluar Modelo"):
-        if modelo_seleccionado == "XGBoost":
-            model = xgb_model
-        elif modelo_seleccionado == "K-Nearest Neighbors (KNN)":
-            model = knn_model
-        elif modelo_seleccionado == "Decision Tree":
-            model = decision_tree_model
-        elif modelo_seleccionado == "Red Neuronal (Keras)":
-            model = keras_model
-        elif modelo_seleccionado == "Red Neuronal (Occupancy)":
-            model = occupancy_model
-        
-        # Hacer predicciones
-        y_pred = model.predict(X_test)
-        
-        # Calcular métricas
-        accuracy = accuracy_score(y_test, y_pred)
-        f1 = f1_score(y_test, y_pred)
-        recall = recall_score(y_test, y_pred)
-        precision = precision_score(y_test, y_pred)
-        
-        # Mostrar métricas
-        st.subheader("Métricas de Evaluación")
-        st.write(f'**Accuracy del modelo en datos de prueba:** {round(accuracy * 100, 2)}%')
-        st.write(f'**F1-Score del modelo:** {round(f1, 2)}')
-        st.write(f'**Recall del modelo:** {round(recall, 2)}')
-        st.write(f'**Precision del modelo:** {round(precision, 2)}')
-        
-        # Matriz de confusión
-        st.subheader("Matriz de Confusión")
-        conf_matrix = confusion_matrix(y_test, y_pred)
-        fig, ax = plt.subplots(figsize=(6, 4))
-        sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', ax=ax)
-        ax.set_xlabel('Predicciones')
-        ax.set_ylabel('Valores Reales')
-        ax.set_title('Matriz de Confusión')
-        st.pyplot(fig)
-
-if seccion == "Comparación de Modelos":
-    st.subheader("Explicación de los Modelos")
-    
-    if modelo_seleccionado == "XGBoost":
-        st.write("""
-        **XGBoost (eXtreme Gradient Boosting):**
-        - **Hiperparámetros principales:**
-          - `n_estimators`: Número de árboles en el modelo.
-          - `max_depth`: Profundidad máxima de cada árbol.
-          - `learning_rate`: Tasa de aprendizaje para reducir el impacto de cada árbol.
-          - `subsample`: Fracción de muestras utilizadas para entrenar cada árbol.
-        - **Ventajas:**
-          - Alto rendimiento en problemas de clasificación y regresión.
-          - Manejo eficiente de datos faltantes y desequilibrados.
-          - Regularización incorporada para evitar overfitting.
-        """)
-    
-    elif modelo_seleccionado == "K-Nearest Neighbors (KNN)":
-        st.write("""
-        **K-Nearest Neighbors (KNN):**
-        - **Hiperparámetros principales:**
-          - `n_neighbors`: Número de vecinos a considerar.
-          - `weights`: Función de peso utilizada en la predicción (uniforme o por distancia).
-          - `metric`: Métrica de distancia (por ejemplo, euclidiana, manhattan).
-        - **Ventajas:**
-          - Simple y fácil de implementar.
-          - No asume ninguna distribución subyacente de los datos.
-        - **Desventajas:**
-          - Computacionalmente costoso para grandes conjuntos de datos.
-          - Sensible a la escala de los datos.
-        """)
-    
-    elif modelo_seleccionado == "Decision Tree":
-        st.write("""
-        **Decision Tree:**
-        - **Hiperparámetros principales:**
-          - `max_depth`: Profundidad máxima del árbol.
-          - `min_samples_split`: Número mínimo de muestras requeridas para dividir un nodo.
-          - `min_samples_leaf`: Número mínimo de muestras requeridas en un nodo hoja.
-        - **Ventajas:**
-          - Fácil de interpretar y visualizar.
-          - No requiere normalización de datos.
-        - **Desventajas:**
-          - Propenso a overfitting, especialmente con árboles profundos.
-        """)
-    
-    elif modelo_seleccionado == "Red Neuronal (Keras)":
-        st.write("""
-        **Red Neuronal (Keras):**
-        - **Hiperparámetros principales:**
-          - `units`: Número de neuronas en cada capa.
-          - `activation`: Función de activación (por ejemplo, relu, sigmoid).
-          - `epochs`: Número de épocas de entrenamiento.
-          - `batch_size`: Tamaño del lote para el entrenamiento.
-        - **Ventajas:**
-          - Capacidad para modelar relaciones no lineales complejas.
-          - Flexible y altamente personalizable.
-        - **Desventajas:**
-          - Requiere una gran cantidad de datos y poder computacional.
-          - Difícil de interpretar.
-        """)
-    
-    elif modelo_seleccionado == "Red Neuronal (Occupancy)":
-        st.write("""
-        **Red Neuronal (Occupancy):**
-        - **Hiperparámetros principales:**
-          - Similar a la red neuronal de Keras, pero específicamente entrenada para el problema de ocupación.
-        - **Ventajas:**
-          - Optimizada para el conjunto de datos de ocupación.
-          - Puede capturar patrones específicos del problema.
-        - **Desventajas:**
-          - Menos generalizable a otros problemas.
-        """)
-
-
-
-
-
-
-
-
-
-
