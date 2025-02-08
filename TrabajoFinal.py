@@ -126,21 +126,24 @@ elif seccion == "Análisis Descriptivo":
     
 elif seccion == "Distribución de la variable objetivo":
     st.subheader("Distribución de la variable objetivo")
+     st.markdown("""
     fig, ax = plt.subplots()
     sns.countplot(x=df["Occupancy"], ax=ax)
     st.pyplot(fig)
     st.write("De la variable respuesta “Occupancy”, se obtiene que en su mayoría de casos se tiene como resultado que la habitación no se encuentra ocupada, denotada con el valor de cero y por el valor 1 en el caso contrario. Se obtuvo que en el 78.9% de los casos la habitación está vacía, y en el 21.1% se encuentra ocupada.")
-
+""")
 elif seccion == "Mapa de calor de correlaciones":
     st.subheader("Mapa de calor de correlaciones")
+     st.markdown("""
     st.write("Se plantea la matriz de correlación de las variables mencionadas para verificar qué tan relacionadas se encuentran con la variable respuesta de “Occupancy” y así observar cuáles tendrían mayor incidencia en la toma de decisión:")
     fig, ax = plt.subplots(figsize=(10, 5))
     sns.heatmap(df.corr(), vmin=-1, vmax=1, cmap="coolwarm", annot=True, ax=ax)
     st.pyplot(fig)
     st.write("Según la matriz, la variable que más se correlaciona con la variable respuesta es la luz (“Light”), pues es una determinante importante en la ocupación de una habitación; seguido de ésta, se denotan las variables de temperatura y CO2, cuyas características se encuentran estrechamente relacionadas con la presencia de personas en un espacio. Por último, debe mencionarse que las variables relacionadas con la humedad presentan una muy baja correlación con la ocupación de una habitación, esto debe tenerse en cuenta en la formulación del modelo para la aplicación y considerar sí se eliminan estas variables dependiendo de los resultados que se obtengan.")
-
+  """)
 elif seccion == "Boxplots":
     st.subheader("Conjunto de boxplots")
+ st.markdown("""
     st.image("Boxplots.jpg", use_container_width=True)
     st.write("""
     ### Análisis de Variables
