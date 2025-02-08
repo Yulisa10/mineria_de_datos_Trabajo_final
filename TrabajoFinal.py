@@ -14,7 +14,7 @@ from sklearn.metrics import accuracy_score, f1_score, recall_score, precision_sc
 from sklearn.metrics import accuracy_score, confusion_matrix  # Importación de métricas
 
 
-# Mostrar la imagen solo en la página de inicio
+# Mostrar la imagen solo en la página de inicio.
 st.title("Análisis de Detección de Ocupación")
 st.write("Grupo: Yulisa Ortiz Giraldo y Juan Pablo Noreña Londoño")
 if "image_displayed" not in st.session_state:
