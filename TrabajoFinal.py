@@ -334,5 +334,6 @@ st.write("""
 - **Pérdida (Loss):** La pérdida en el conjunto de entrenamiento y validación disminuye con el tiempo, lo que indica que el modelo está aprendiendo correctamente.
 - **Precisión (Accuracy):** La precisión en el conjunto de entrenamiento y validación aumenta con el tiempo, lo que sugiere que el modelo generaliza bien.
 - **Matriz de Confusión:** La matriz de confusión muestra cuántas predicciones fueron correctas e incorrectas. Esto nos ayuda a entender el rendimiento del modelo en términos de falsos positivos y falsos negativos.
+  
 """)
 
