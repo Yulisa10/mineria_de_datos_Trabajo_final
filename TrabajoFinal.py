@@ -212,6 +212,7 @@ elif seccion == "Conclusión: Selección del Mejor Modelo":
 
 elif seccion == "Modelo XGBoost":
     st.subheader("Modelo planteado con XGBoost")
+     st.markdown("""
 
     def load_model():
       filename = 'xgb_model.pkl.gz'
@@ -244,6 +245,7 @@ elif seccion == "Modelo XGBoost":
     ax.set_xlabel('Importancia')
     ax.set_ylabel('Características')
     st.pyplot(fig)
+ """)
     
 elif seccion == "Entrenamiento del Modelo MLP":
     st.subheader("Entrenamiento del Modelo MLP")
