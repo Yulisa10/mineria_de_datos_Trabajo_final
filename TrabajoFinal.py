@@ -212,11 +212,11 @@ elif seccion == "Modelo XGBoost":
         model = pickle.load(f)
     return model
     # Predicciones y evaluación del modelo
-    y_pred = model.predict(X_test)
-    accuracy = accuracy_score(y_test, y_pred)
-    f1 = f1_score(y_test, y_pred)
-    recall = recall_score(y_test, y_pred)
-    precision = precision_score(y_test, y_pred)
+    
+    accuracy = accuracy_score(model)
+    f1 = f1_score(model)
+    recall = recall_score(model)
+    precision = precision_score(model)
 
     # Mostrar métricas de evaluación
     st.write(f'**Accuracy del modelo en datos de prueba:** {round(accuracy * 100, 2)}%')
