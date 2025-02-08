@@ -297,14 +297,14 @@ elif seccion == "Modelo de redes neuronales":
     axes[0].plot(history.history['loss'], label='Entrenamiento')
     axes[0].plot(history.history['val_loss'], label='Validación')
     axes[0].set_title('Pérdida (Loss)')
-    axes[0].set_xlabel('Épocas')
+    axes[0].set_xlabel('Epoch')
     axes[0].set_ylabel('Pérdida')
     axes[0].legend()
     
     axes[1].plot(history.history['accuracy'], label='Precisión en Entrenamiento')
     axes[1].plot(history.history['val_accuracy'], label='Precisión en Validación')
     axes[1].set_title('Precisión (Accuracy)')
-    axes[1].set_xlabel('Épocas')
+    axes[1].set_xlabel('Epoch')
     axes[1].set_ylabel('Precisión')
     axes[1].legend()
     
@@ -328,11 +328,11 @@ elif seccion == "Modelo de redes neuronales":
     ax.set_title('Matriz de Confusión')
     st.pyplot(fig)
     
-    # Conclusión
-    st.subheader("Conclusión")
-    st.write("""
-    - **Pérdida (Loss):** Disminuye con el tiempo, indicando aprendizaje.
-    - **Precisión (Accuracy):** Mejora en entrenamiento y validación.
-    - **Matriz de Confusión:** Muestra errores y aciertos en las predicciones.
-    """)
+# Conclusión
+st.subheader("Conclusión")
+st.write("""
+- **Pérdida (Loss):** La pérdida en el conjunto de entrenamiento y validación disminuye con el tiempo, lo que indica que el modelo está aprendiendo correctamente.
+- **Precisión (Accuracy):** La precisión en el conjunto de entrenamiento y validación aumenta con el tiempo, lo que sugiere que el modelo generaliza bien.
+- **Matriz de Confusión:** La matriz de confusión muestra cuántas predicciones fueron correctas e incorrectas. Esto nos ayuda a entender el rendimiento del modelo en términos de falsos positivos y falsos negativos.
+""")
 
