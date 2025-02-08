@@ -284,6 +284,7 @@ elif seccion == "Hacer una Predicción":
 # Nueva sección con comparación gráfica de resultados
 elif seccion == "Modelo de redes neuronales":
     st.subheader("Modelo de redes neuronales")
+    st.markdown("""
 # Define el modelo de red neuronal
 model = Sequential()
 model.add(Dense(32, input_shape=(X_train.shape[1],), activation='relu'))  # Capa de entrada
