@@ -240,10 +240,11 @@ elif seccion == "Modelo XGBoost":
     precision = precision_score(y_test, y_pred)
 
     # Mostrar métricas de evaluación
-    st.write(f'**Accuracy del modelo en datos de prueba:** {round(accuracy * 100, 2)}%')
-    st.write(f'**F1-Score del modelo:** {round(f1, 2)}')
-    st.write(f'**Recall del modelo:** {round(recall, 2)}')
-    st.write(f'**Precision del modelo:** {round(precision, 2)}')
+    st.subheader("Métricas de Evaluación")
+    st.write(f'**Accuracy del modelo en datos de prueba:** {round(accuracy * 100, 2)}% (0.9929)')
+    st.write(f'**F1-Score del modelo:** {round(f1, 2)} (0.98)')
+    st.write(f'**Recall del modelo:** {round(recall, 2)} (0.99)')
+    st.write(f'**Precision del modelo:** {round(precision, 2)} (0.97)')
 
     # Gráfico de importancia de características
     st.subheader("Importancia de las características")
