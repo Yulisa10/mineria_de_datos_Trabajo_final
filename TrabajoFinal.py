@@ -261,23 +261,12 @@ elif seccion == "Hacer una Predicción":
 elif seccion == "Modelo de redes neuronales":
     st.subheader("Modelo planteado con redes neuronales")
 
-    # Simulación de datos (sustituye esto con tus datos reales)
-
-    X = df.drop(columns=["Occupancy"], errors='ignore')
-    y = df["Occupancy"]
-
-    # Preprocesamiento de datos
-    scaler = StandardScaler()
-    X = scaler.fit_transform(X)
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-    # Construcción del modelo
-    model = Sequential([
-    Dense(32, input_shape=(X_train.shape[1],), activation='relu'),
-    Dense(16, activation='relu'),
-    Dense(1, activation='sigmoid')
-    ])
-
+    def load_model():
+    """Cargar el modelo y sus pesos desde el archivo model_weights.pkl."""
+    filename = 'best_model.pkl.gz'
+    with gzip.open(filename, 'rb') as f:
+        model = pickle.load(f)
+    return model
     model.compile(loss='binary_crossentropy', optimizer=Adam(), metrics=['accuracy'])
 
     # Entrenamiento del modelo
