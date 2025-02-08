@@ -278,44 +278,50 @@ elif seccion == "Hacer una Predicción":
         occupancy = "Ocupado" if prediction[0][0] > 0.5 else "No Ocupado"
         st.write(f"Predicción: {occupancy}")
 
+  # Nueva sección con comparación gráfica de resultados
 elif seccion == "Modelo de redes neuronales":
     st.subheader("Modelo planteado con redes neuronales")
 
-    # Simulación de datos (sustituye esto con tus datos reales)
-
-    X = df.drop(columns=["Occupancy"], errors='ignore')
-    y = df["Occupancy"]
-
-    # Preprocesamiento de datos
-    scaler = StandardScaler()
-    X = scaler.fit_transform(X)
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
     # Construcción del modelo
     model = Sequential([
-    Dense(32, input_shape=(X_train.shape[1],), activation='relu'),
-    Dense(16, activation='relu'),
-    Dense(1, activation='sigmoid')
+        Dense(32, input_shape=(X_train.shape[1],), activation='relu'),
+        Dense(16, activation='relu'),
+        Dense(1, activation='sigmoid')
     ])
 
     model.compile(loss='binary_crossentropy', optimizer=Adam(), metrics=['accuracy'])
 
     # Entrenamiento del modelo
     st.write("Entrenando el modelo, por favor espera...")
-    clf = model.fit(X_train, y_train, epochs=50, batch_size=500, verbose=0)
-
-    # Obtención del historial de entrenamiento
-    accuracy = clf.history['accuracy']
-    loss = clf.history['loss']
+    clf = model.fit(X_train, y_train, epochs=50, batch_size=500, verbose=0, validation_data=(X_test, y_test))
 
     # Gráficos de Accuracy y Loss
-    fig, axes = plt.subplots(1, 2, figsize=(10, 3))
-    sns.lineplot(y=accuracy, x=range(1, len(accuracy) + 1), marker='o', ax=axes[0])
-    sns.lineplot(y=loss, x=range(1, len(loss) + 1), marker='o', ax=axes[1])
-    axes[0].set_title('Accuracy')
-    axes[1].set_title('Loss')
+    fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+    axes[0].plot(clf.history['loss'], label='Entrenamiento')
+    axes[0].plot(clf.history['val_loss'], label='Validación')
+    axes[0].set_xlabel('Épocas')
+    axes[0].set_ylabel('Pérdida')
+    axes[0].set_title('Evolución de la pérdida')
+    axes[0].legend()
 
-    # Mostrar gráficos en Streamlit
+    axes[1].plot(clf.history['accuracy'], label='Entrenamiento')
+    axes[1].plot(clf.history['val_accuracy'], label='Validación')
+    axes[1].set_xlabel('Épocas')
+    axes[1].set_ylabel('Precisión')
+    axes[1].set_title('Evolución de la precisión')
+    axes[1].legend()
+
+    st.pyplot(fig)
+
+    # Predicciones y gráfica de comparación
+    y_pred = (model.predict(X_test) > 0.5).astype(int)
+    fig, ax = plt.subplots(figsize=(8, 6))
+    ax.scatter(range(len(y_test)), y_test, label='Valores Reales', alpha=0.6)
+    ax.scatter(range(len(y_pred)), y_pred, label='Predicciones', alpha=0.6, color='red')
+    ax.set_xlabel('Índice de muestra')
+    ax.set_ylabel('Clase')
+    ax.set_title('Comparación entre valores reales y predichos')
+    ax.legend()
     st.pyplot(fig)
 
     # Evaluación del modelo
