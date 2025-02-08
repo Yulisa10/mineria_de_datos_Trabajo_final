@@ -57,30 +57,29 @@ X, y, scaler = preprocess_data(df)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # Entrenar modelo MLP
-def load_model():
-      filename = 'keras_model.pkl.gz'
-    with gzip.open(filename, 'rb') as f:
-        model = pickle.load(f)
+def train_mlp():
+    model = Sequential()
+    model.add(Dense(32, input_shape=(X_train.shape[1],), activation='relu'))
+    model.add(Dense(16, activation='relu'))
+    model.add(Dense(1, activation='sigmoid'))
+    model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+    model.fit(X_train, y_train, epochs=50, batch_size=500, verbose=0)
     return model
 
 # Mostrar contenido basado en la selección
 if seccion == "Vista previa de los datos":
     st.subheader("Vista previa de los datos")
-     st.markdown("""
     st.write(df.head())
-""")
 
 elif seccion == "Información del dataset":
     st.subheader("Información del dataset")
-    st.markdown("""
     st.write(df.info())
     st.write("La base de datos seleccionada para el desarrollo de la aplicación corresponde a un estudio diseñado para optimizar actividades de clasificación binaria para determinar sí una habitación está ocupada o no. Dentro de sus características, se recopilan mediciones ambientales tales como la temperatura, la humedad del ambiente, la luz o nivel de luminosidad, y niveles de CO2, donde, con base a estas se determina sí la habitación está ocupada. La información de ocupación se obtuvo mediante la obtención de imágenes capturadas por minuto, garantizando etiquetas precisas para la clasificación. Este conjunto de datos resulta muy importante y útil para la investigación basada en la detección ambiental y el diseño de sistemas de edificios inteligentes según sea el interés del usuario.")
     st.write("La base cuenta con un total de 17.895 datos con un total de 8 variables, sin embargo, se utilizará una cantidad reducida de variables debido a que aquellas como “ID” y “Fecha” no aportan información relevante para la aplicación de los temas anteriormente tratados.")
     st.write("El conjunto de datos fue obtenido del repositorio público Kaggle, ampliamente utilizado en investigaciones relacionadas con sistemas inteligentes y monitoreo ambiental. La fuente original corresponde al trabajo disponible en el siguiente enlace: https://www.kaggle.com/datasets/pooriamst/occupancy-detection.")
-""")
+
 elif seccion == "Análisis Descriptivo":
     st.subheader("Resumen de los datos")
-    st.markdown("""
     st.write(df.describe())
     st.subheader("Histograma de Temperature")
     # Temperatura
@@ -127,27 +126,24 @@ elif seccion == "Análisis Descriptivo":
     ax.set_title('Histograma de CO2')
     st.pyplot(fig)
     st.write("Para la variable de CO2, se observa que los niveles de CO2 dados en ppm (partículas por millón) de aproximadamente 400 a 700pm son los más presentes en el conjunto de datos. Se registran más casos donde los niveles de CO2 son mucho mayores a los recurrentes, llegando hasta los 2000ppm. Para comprender la tolerancia de una persona hacia el CO2, la empresa Enectiva (2017) en su publicación “Efectos de la concentración de CO₂ para la salud humana” expone que las habitaciones deben tener niveles de CO2 máximo recomendado en 1200-1500ppm, a partir de este valor pueden presentarse efectos secundarios sobre las personas, como la fatiga y la pérdida de concentración; a niveles mayores a los presentes en el histograma puede provocar aumento del ritmo cardíaco, dificultades respiratorias, náuseas, e inclusive la pérdida de la consciencia. Los niveles de CO2 pueden ser un indicativo clave para determinar sí la habitación está ocupada o no debido a la naturaleza del ser humano de expulsar dióxido de carbono “CO2” en su exhalación, aunque debe tenerse en cuenta que un nivel elevado de CO2 puede deberse a razones diferentes del proceso de respiración de la persona.")
- """)   
+    
 elif seccion == "Distribución de la variable objetivo":
     st.subheader("Distribución de la variable objetivo")
-     st.markdown("""
     fig, ax = plt.subplots()
     sns.countplot(x=df["Occupancy"], ax=ax)
     st.pyplot(fig)
     st.write("De la variable respuesta “Occupancy”, se obtiene que en su mayoría de casos se tiene como resultado que la habitación no se encuentra ocupada, denotada con el valor de cero y por el valor 1 en el caso contrario. Se obtuvo que en el 78.9% de los casos la habitación está vacía, y en el 21.1% se encuentra ocupada.")
-""")
+
 elif seccion == "Mapa de calor de correlaciones":
     st.subheader("Mapa de calor de correlaciones")
-     st.markdown("""
     st.write("Se plantea la matriz de correlación de las variables mencionadas para verificar qué tan relacionadas se encuentran con la variable respuesta de “Occupancy” y así observar cuáles tendrían mayor incidencia en la toma de decisión:")
     fig, ax = plt.subplots(figsize=(10, 5))
     sns.heatmap(df.corr(), vmin=-1, vmax=1, cmap="coolwarm", annot=True, ax=ax)
     st.pyplot(fig)
     st.write("Según la matriz, la variable que más se correlaciona con la variable respuesta es la luz (“Light”), pues es una determinante importante en la ocupación de una habitación; seguido de ésta, se denotan las variables de temperatura y CO2, cuyas características se encuentran estrechamente relacionadas con la presencia de personas en un espacio. Por último, debe mencionarse que las variables relacionadas con la humedad presentan una muy baja correlación con la ocupación de una habitación, esto debe tenerse en cuenta en la formulación del modelo para la aplicación y considerar sí se eliminan estas variables dependiendo de los resultados que se obtengan.")
-  """)
+
 elif seccion == "Boxplots":
     st.subheader("Conjunto de boxplots")
- st.markdown("""
     st.image("Boxplots.jpg", use_container_width=True)
     st.write("""
     ### Análisis de Variables
@@ -219,13 +215,22 @@ elif seccion == "Conclusión: Selección del Mejor Modelo":
 
 elif seccion == "Modelo XGBoost":
     st.subheader("Modelo planteado con XGBoost")
-     st.markdown("""
 
-    def load_model():
-      filename = 'xgb_model.pkl.gz'
-      with gzip.open(filename, 'rb') as f:
-        model = pickle.load(f)
-      return model
+    # Simulación de datos (sustituye esto con tus datos reales)
+    X = df.drop(columns=["Occupancy"], errors='ignore')
+    y = df["Occupancy"]
+
+    # Preprocesamiento de datos
+    scaler = MinMaxScaler()
+    X_scaled = scaler.fit_transform(X)
+    X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=42)
+
+    # Construcción del modelo XGBoost
+    model = XGBClassifier(enable_categorical=True, random_state=42)
+
+    # Entrenamiento del modelo
+    st.write("Entrenando el modelo XGBoost, por favor espera...")
+    model.fit(X_train, y_train)
 
     # Predicciones y evaluación del modelo
     y_pred = model.predict(X_test)
@@ -252,7 +257,6 @@ elif seccion == "Modelo XGBoost":
     ax.set_xlabel('Importancia')
     ax.set_ylabel('Características')
     st.pyplot(fig)
- """)
     
 elif seccion == "Entrenamiento del Modelo MLP":
     st.subheader("Entrenamiento del Modelo MLP")
@@ -279,70 +283,68 @@ elif seccion == "Hacer una Predicción":
  
 # Nueva sección con comparación gráfica de resultados
 elif seccion == "Modelo de redes neuronales":
-    st.subheader("Modelo de Redes Neuronales")
-    st.markdown("""
-    # Simulación de datos (reemplazar con datos reales)
-    X_train, X_test = np.random.rand(1000, 10), np.random.rand(200, 10)
-    y_train, y_test = np.random.randint(0, 2, 1000), np.random.randint(0, 2, 200)
-    
-    # Definir el modelo
-    model = Sequential([
-        Dense(32, input_shape=(X_train.shape[1],), activation='relu'),
-        Dense(16, activation='relu'),
-        Dense(1, activation='sigmoid')
-    ])
-    
-    # Compilar el modelo
-    model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
-    
-    # Entrenar el modelo
-    st.write("Entrenando el modelo, por favor espera...")
-    history = model.fit(X_train, y_train, epochs=50, batch_size=500, verbose=0, validation_data=(X_test, y_test))
-    
-    # Gráficos de entrenamiento y validación
-    st.subheader("Rendimiento del Modelo durante el Entrenamiento")
-    fig, axes = plt.subplots(1, 2, figsize=(12, 4))
-    
-    axes[0].plot(history.history['loss'], label='Entrenamiento')
-    axes[0].plot(history.history['val_loss'], label='Validación')
-    axes[0].set_title('Pérdida (Loss)')
-    axes[0].set_xlabel('Epoch')
-    axes[0].set_ylabel('Pérdida')
-    axes[0].legend()
-    
-    axes[1].plot(history.history['accuracy'], label='Precisión en Entrenamiento')
-    axes[1].plot(history.history['val_accuracy'], label='Precisión en Validación')
-    axes[1].set_title('Precisión (Accuracy)')
-    axes[1].set_xlabel('Epoch')
-    axes[1].set_ylabel('Precisión')
-    axes[1].legend()
-    
-    st.pyplot(fig)
-    
-    # Evaluación del modelo en el conjunto de prueba
-    st.subheader("Evaluación del Modelo en el Conjunto de Prueba")
-    y_pred = model.predict(X_test)
-    y_pred = (y_pred > 0.5).astype(int)
-    
-    accuracy = accuracy_score(y_test, y_pred)
-    st.write(f'**Accuracy en el conjunto de prueba:** {round(accuracy * 100, 2)}%')
-    
-    # Matriz de confusión
-    st.subheader("Matriz de Confusión")
-    conf_matrix = confusion_matrix(y_test, y_pred)
-    fig, ax = plt.subplots(figsize=(6, 4))
-    sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', ax=ax)
-    ax.set_xlabel('Predicciones')
-    ax.set_ylabel('Valores Reales')
-    ax.set_title('Matriz de Confusión')
-    st.pyplot(fig)
-    
+    st.subheader("Modelo de redes neuronales")
+# Define el modelo de red neuronal
+model = Sequential()
+model.add(Dense(32, input_shape=(X_train.shape[1],), activation='relu'))  # Capa de entrada
+model.add(Dense(16, activation='relu'))  # Capa oculta
+model.add(Dense(1, activation='sigmoid'))  # Capa de salida
+
+# Compila el modelo
+model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+
+# Entrena el modelo
+st.write("Entrenando el modelo, por favor espera...")
+history = model.fit(X_train, y_train, epochs=50, batch_size=500, verbose=0, validation_data=(X_test, y_test))
+
+# Gráficos de entrenamiento y validación (pérdida y precisión)
+st.subheader("Rendimiento del Modelo durante el Entrenamiento")
+
+# Gráfico de pérdida (loss)
+fig, axes = plt.subplots(1, 2, figsize=(12, 4))
+axes[0].plot(history.history['loss'], label='Entrenamiento')
+axes[0].plot(history.history['val_loss'], label='Validación')
+axes[0].set_title('Pérdida (Loss)')
+axes[0].set_xlabel('Épocas')
+axes[0].set_ylabel('Pérdida')
+axes[0].legend()
+
+# Gráfico de precisión (accuracy)
+axes[1].plot(history.history['accuracy'], label='Precisión en Entrenamiento')
+axes[1].plot(history.history['val_accuracy'], label='Precisión en Validación')
+axes[1].set_title('Precisión (Accuracy)')
+axes[1].set_xlabel('Épocas')
+axes[1].set_ylabel('Precisión')
+axes[1].legend()
+
+# Mostrar gráficos en Streamlit
+st.pyplot(fig)
+
+# Evaluación del modelo en el conjunto de prueba
+st.subheader("Evaluación del Modelo en el Conjunto de Prueba")
+y_pred = model.predict(X_test)
+y_pred = (y_pred > 0.5).astype(int)  # Convertir probabilidades a clases binarias (0 o 1)
+
+# Calcular métricas de evaluación
+accuracy = accuracy_score(y_test, y_pred)
+st.write(f'**Accuracy en el conjunto de prueba:** {round(accuracy * 100, 2)}%')
+
+# Matriz de confusión
+st.subheader("Matriz de Confusión")
+conf_matrix = confusion_matrix(y_test, y_pred)
+fig, ax = plt.subplots(figsize=(6, 4))
+sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', ax=ax)
+ax.set_xlabel('Predicciones')
+ax.set_ylabel('Valores Reales')
+ax.set_title('Matriz de Confusión')
+st.pyplot(fig)
+
 # Conclusión
 st.subheader("Conclusión")
 st.write("""
 - **Pérdida (Loss):** La pérdida en el conjunto de entrenamiento y validación disminuye con el tiempo, lo que indica que el modelo está aprendiendo correctamente.
 - **Precisión (Accuracy):** La precisión en el conjunto de entrenamiento y validación aumenta con el tiempo, lo que sugiere que el modelo generaliza bien.
 - **Matriz de Confusión:** La matriz de confusión muestra cuántas predicciones fueron correctas e incorrectas. Esto nos ayuda a entender el rendimiento del modelo en términos de falsos positivos y falsos negativos.
-  
 """)
+
 
