@@ -33,7 +33,7 @@ seccion = st.sidebar.radio("Tabla de Contenidos",
                             "Modelo XGBoost",  # Nueva sección
                             "Entrenamiento del Modelo MLP", 
                             "Hacer una Predicción",
-                           "Modelo de redes neuronales"])
+                            "Modelo de redes neuronales"])
 
 # Cargar los datos
 def load_data():
@@ -181,7 +181,7 @@ elif seccion == "Boxplots":
 elif seccion == "Conclusión: Selección del Mejor Modelo":
     st.subheader("Conclusión: Selección del Mejor Modelo (XGBoost)")
     st.markdown("""
-    Después de evaluar varios modelos de machine learning para la tarea de predecir la ocupación de habitaciones, se determinó que el **XGBoost Classifier** es el modelo más adecuado para este problema. A continuación, se detallan las razones por las que se seleccionó este modelo y por qué los otros no fueron la mejor opción:
+    Después de evaluar varios modelos para la tarea de predecir la ocupación de habitaciones, se determinó que el **XGBoost Classifier** es el modelo más adecuado para este problema. A continuación, se detallan las razones por las que se seleccionó este modelo y por qué los otros no fueron la mejor opción:
 
     #### Razones para elegir XGBoost:
     1. **Alto Rendimiento en Precisión y F1-Score**:
@@ -283,7 +283,7 @@ elif seccion == "Hacer una Predicción":
  
 # Nueva sección con comparación gráfica de resultados
 elif seccion == "Modelo de redes neuronales":
-    st.subheader("Modelo planteado con redes neuronales")
+    st.subheader("Modelo de redes neuronales")
 # Define el modelo de red neuronal
 model = Sequential()
 model.add(Dense(32, input_shape=(X_train.shape[1],), activation='relu'))  # Capa de entrada
