@@ -225,38 +225,37 @@ elif seccion == "Modelo XGBoost":
     X_scaled = scaler.fit_transform(X)
     X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=42)
 
- # Construcción del modelo XGBoost
-model = XGBClassifier(enable_categorical=True, random_state=42)
+    # Construcción del modelo XGBoost
+    model = XGBClassifier(enable_categorical=True, random_state=42)
 
-# Entrenamiento del modelo
-st.write("Entrenando el modelo XGBoost, por favor espera...")
-model.fit(X_train, y_train)
+    # Entrenamiento del modelo
+    st.write("Entrenando el modelo XGBoost, por favor espera...")
+    model.fit(X_train, y_train)
 
-# Predicciones y evaluación del modelo
-y_pred = model.predict(X_test)
-accuracy = accuracy_score(y_test, y_pred)
-f1 = f1_score(y_test, y_pred)
-recall = recall_score(y_test, y_pred)
-precision = precision_score(y_test, y_pred)
+    # Predicciones y evaluación del modelo
+    y_pred = model.predict(X_test)
+    accuracy = accuracy_score(y_test, y_pred)
+    f1 = f1_score(y_test, y_pred)
+    recall = recall_score(y_test, y_pred)
+    precision = precision_score(y_test, y_pred)
 
-# Mostrar métricas de evaluación
-st.subheader("Métricas de Evaluación")
-st.write(f'**Accuracy del modelo en datos de prueba:** {round(accuracy * 100, 2)}% (0.9929)')
-st.write(f'**F1-Score del modelo:** {round(f1, 2)} (0.98)')
-st.write(f'**Recall del modelo:** {round(recall, 2)} (0.99)')
-st.write(f'**Precision del modelo:** {round(precision, 2)} (0.97)')
+    # Mostrar métricas de evaluación
+    st.write(f'**Accuracy del modelo en datos de prueba:** {round(accuracy * 100, 2)}%')
+    st.write(f'**F1-Score del modelo:** {round(f1, 2)}')
+    st.write(f'**Recall del modelo:** {round(recall, 2)}')
+    st.write(f'**Precision del modelo:** {round(precision, 2)}')
 
-# Gráfico de importancia de características
-st.subheader("Importancia de las características")
-feat_importances = pd.Series(model.feature_importances_, index=X.columns)
-feat_importances = feat_importances.sort_values(ascending=True)
+    # Gráfico de importancia de características
+    st.subheader("Importancia de las características")
+    feat_importances = pd.Series(model.feature_importances_, index=X.columns)
+    feat_importances = feat_importances.sort_values(ascending=True)
 
-fig, ax = plt.subplots(figsize=(10, 6))
-feat_importances.plot(kind='barh', ax=ax)
-ax.set_title('Importancia de las características')
-ax.set_xlabel('Importancia')
-ax.set_ylabel('Características')
-st.pyplot(fig)
+    fig, ax = plt.subplots(figsize=(10, 6))
+    feat_importances.plot(kind='barh', ax=ax)
+    ax.set_title('Importancia de las características')
+    ax.set_xlabel('Importancia')
+    ax.set_ylabel('Características')
+    st.pyplot(fig)
     
 elif seccion == "Entrenamiento del Modelo MLP":
     st.subheader("Entrenamiento del Modelo MLP")
@@ -346,6 +345,8 @@ st.write("""
 - **Precisión (Accuracy):** La precisión en el conjunto de entrenamiento y validación aumenta con el tiempo, lo que sugiere que el modelo generaliza bien.
 - **Matriz de Confusión:** La matriz de confusión muestra cuántas predicciones fueron correctas e incorrectas. Esto nos ayuda a entender el rendimiento del modelo en términos de falsos positivos y falsos negativos.
 """)
+
+
 
 
 
