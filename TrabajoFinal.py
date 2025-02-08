@@ -205,23 +205,12 @@ elif seccion == "Conclusión: Selección del Mejor Modelo":
 
 elif seccion == "Modelo XGBoost":
     st.subheader("Modelo planteado con XGBoost")
-
-    # Simulación de datos (sustituye esto con tus datos reales)
-    X = df.drop(columns=["Occupancy"], errors='ignore')
-    y = df["Occupancy"]
-
-    # Preprocesamiento de datos
-    scaler = MinMaxScaler()
-    X_scaled = scaler.fit_transform(X)
-    X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=42)
-
-    # Construcción del modelo XGBoost
-    model = XGBClassifier(enable_categorical=True, random_state=42)
-
-    # Entrenamiento del modelo
-    st.write("Entrenando el modelo XGBoost, por favor espera...")
-    model.fit(X_train, y_train)
-
+    def load_model():
+    """Cargar el modelo y sus pesos desde el archivo model_weights.pkl."""
+    filename = 'xgb_model.pkl.gz'
+    with gzip.open(filename, 'rb') as f:
+        model = pickle.load(f)
+    return model
     # Predicciones y evaluación del modelo
     y_pred = model.predict(X_test)
     accuracy = accuracy_score(y_test, y_pred)
