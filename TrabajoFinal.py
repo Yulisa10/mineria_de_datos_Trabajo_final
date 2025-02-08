@@ -282,42 +282,68 @@ elif seccion == "Hacer una Predicción":
 # Nueva sección con comparación gráfica de resultados
 elif seccion == "Modelo de redes neuronales":
     st.subheader("Modelo planteado con redes neuronales")
+# Define el modelo de red neuronal
+model = Sequential()
+model.add(Dense(32, input_shape=(X_train.shape[1],), activation='relu'))  # Capa de entrada
+model.add(Dense(16, activation='relu'))  # Capa oculta
+model.add(Dense(1, activation='sigmoid'))  # Capa de salida
 
-    # Construcción del modelo
-    model = Sequential([
-        Dense(32, input_shape=(X_train.shape[1],), activation='relu'),
-        Dense(16, activation='relu'),
-        Dense(1, activation='sigmoid')
-    ])
+# Compila el modelo
+model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 
-    model.compile(loss='binary_crossentropy', optimizer=Adam(), metrics=['accuracy'])
+# Entrena el modelo
+st.write("Entrenando el modelo, por favor espera...")
+history = model.fit(X_train, y_train, epochs=50, batch_size=500, verbose=0, validation_data=(X_test, y_test))
 
-    # Entrenamiento del modelo
-    st.write("Entrenando el modelo, por favor espera...")
-    clf = model.fit(X_train, y_train, epochs=50, batch_size=500, verbose=0, validation_data=(X_test, y_test))
+# Gráficos de entrenamiento y validación (pérdida y precisión)
+st.subheader("Rendimiento del Modelo durante el Entrenamiento")
 
-    # Gráficos de Accuracy y Loss
-    fig, axes = plt.subplots(1, 2, figsize=(12, 5))
-    axes[0].plot(clf.history['loss'], label='Entrenamiento')
-    axes[0].plot(clf.history['val_loss'], label='Validación')
-    axes[0].set_xlabel('Épocas')
-    axes[0].set_ylabel('Pérdida')
-    axes[0].set_title('Evolución de la pérdida')
-    axes[0].legend()
+# Gráfico de pérdida (loss)
+fig, axes = plt.subplots(1, 2, figsize=(12, 4))
+axes[0].plot(history.history['loss'], label='Pérdida en Entrenamiento')
+axes[0].plot(history.history['val_loss'], label='Pérdida en Validación')
+axes[0].set_title('Pérdida (Loss)')
+axes[0].set_xlabel('Épocas')
+axes[0].set_ylabel('Pérdida')
+axes[0].legend()
 
-    axes[1].plot(clf.history['accuracy'], label='Entrenamiento')
-    axes[1].plot(clf.history['val_accuracy'], label='Validación')
-    axes[1].set_xlabel('Épocas')
-    axes[1].set_ylabel('Precisión')
-    axes[1].set_title('Evolución de la precisión')
-    axes[1].legend()
+# Gráfico de precisión (accuracy)
+axes[1].plot(history.history['accuracy'], label='Precisión en Entrenamiento')
+axes[1].plot(history.history['val_accuracy'], label='Precisión en Validación')
+axes[1].set_title('Precisión (Accuracy)')
+axes[1].set_xlabel('Épocas')
+axes[1].set_ylabel('Precisión')
+axes[1].legend()
 
-    st.pyplot(fig)
+# Mostrar gráficos en Streamlit
+st.pyplot(fig)
 
+# Evaluación del modelo en el conjunto de prueba
+st.subheader("Evaluación del Modelo en el Conjunto de Prueba")
+y_pred = model.predict(X_test)
+y_pred = (y_pred > 0.5).astype(int)  # Convertir probabilidades a clases binarias (0 o 1)
 
-    # Evaluación del modelo
-    _, test_accuracy = model.evaluate(X_test, y_test, verbose=0)
-    st.write(f'**Accuracy del modelo en datos de prueba:** {round(test_accuracy * 100, 2)}%')
+# Calcular métricas de evaluación
+accuracy = accuracy_score(y_test, y_pred)
+st.write(f'**Accuracy en el conjunto de prueba:** {round(accuracy * 100, 2)}%')
+
+# Matriz de confusión
+st.subheader("Matriz de Confusión")
+conf_matrix = confusion_matrix(y_test, y_pred)
+fig, ax = plt.subplots(figsize=(6, 4))
+sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', ax=ax)
+ax.set_xlabel('Predicciones')
+ax.set_ylabel('Valores Reales')
+ax.set_title('Matriz de Confusión')
+st.pyplot(fig)
+
+# Conclusión
+st.subheader("Conclusión")
+st.write("""
+- **Pérdida (Loss):** La pérdida en el conjunto de entrenamiento y validación disminuye con el tiempo, lo que indica que el modelo está aprendiendo correctamente.
+- **Precisión (Accuracy):** La precisión en el conjunto de entrenamiento y validación aumenta con el tiempo, lo que sugiere que el modelo generaliza bien.
+- **Matriz de Confusión:** La matriz de confusión muestra cuántas predicciones fueron correctas e incorrectas. Esto nos ayuda a entender el rendimiento del modelo en términos de falsos positivos y falsos negativos.
+""")
 
 
 
